@@ -7,19 +7,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "maquinas")
+@Table(name = "setores")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Maquina {
+@NoArgsConstructor
+public class Setor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "np", unique = true)
-    private Long np;
 
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
