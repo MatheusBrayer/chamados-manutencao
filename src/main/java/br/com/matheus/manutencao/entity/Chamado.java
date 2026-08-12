@@ -30,6 +30,10 @@ public class Chamado {
     private Maquina maquina;
 
     @ManyToOne
+    @JoinColumn(name = "mecanico_id", nullable = false)
+    private Mecanico mecanico;
+
+    @ManyToOne
     @JoinColumn(name = "setor_id", nullable = false)
     private Setor setor;
 

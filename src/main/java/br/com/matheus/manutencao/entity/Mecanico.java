@@ -19,7 +19,7 @@ public class Mecanico {
     private Long id;
 
     @Column(name = "matricula", nullable = false, unique = true)
-    private Integer matricula;
+    private Long matricula;
 
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;

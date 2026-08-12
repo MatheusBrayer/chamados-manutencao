@@ -1,7 +1,9 @@
 package br.com.matheus.manutencao.controller;
 
+import br.com.matheus.manutencao.dto.ChamadoRequestDTO;
 import br.com.matheus.manutencao.entity.Chamado;
 import br.com.matheus.manutencao.repository.ChamadoRepository;
+import br.com.matheus.manutencao.service.ChamadoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +15,10 @@ import java.util.Optional;
 public class ChamadosController {
 
     private final ChamadoRepository chamadoRepository;
+    private final ChamadoService chamadoService;
 
-    public ChamadosController(ChamadoRepository chamadoRepository) {
+    public ChamadosController(ChamadoRepository chamadoRepository, ChamadoService chamadoService) {
+        this.chamadoService = chamadoService;
         this.chamadoRepository = chamadoRepository;
     }
 
@@ -29,9 +33,9 @@ public class ChamadosController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarChamado (@RequestBody Chamado novoChamado) {
+    public ResponseEntity<?> cadastrarChamado (@RequestBody ChamadoRequestDTO dto) {
         try {
-            Chamado chamadoSalvo = chamadoRepository.save(novoChamado);
+            Chamado chamadoSalvo = chamadoService.cadastrarChamado(dto);
             return ResponseEntity.ok(chamadoSalvo);
         }catch (Exception error) {
             return ResponseEntity.status(500).body(error.getMessage());
