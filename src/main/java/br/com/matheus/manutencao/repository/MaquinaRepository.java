@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface MaquinaRepository extends JpaRepository <Maquina, Long> {
 
-    Optional<Maquina> findByNp(Integer np);
+    Optional<Maquina> findByNp(Long np);
 
 }
