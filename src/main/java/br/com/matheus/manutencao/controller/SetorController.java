@@ -31,7 +31,7 @@ public class SetorController {
     public ResponseEntity<?> cadastrarSetor (@RequestBody Setor novoSetor) {
         try {
             Setor setorSalvo = setorRepository.save(novoSetor);
-            return ResponseEntity.ok(setorSalvo);
+            return ResponseEntity.status(201).body(setorSalvo);
         }catch (Exception error) {
             return ResponseEntity.status(500).body("Erro ao cadastrar novo setor: " + error.getMessage());
         }

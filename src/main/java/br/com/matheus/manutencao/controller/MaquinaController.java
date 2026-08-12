@@ -38,7 +38,7 @@ public class MaquinaController {
         }
     }
 
-    @GetMapping("/np/{np}")
+    @GetMapping("/{np}")
     public ResponseEntity<?> buscarPorNp (@PathVariable Long np) {
         try {
             Optional<Maquina> maquinaEncontrada = maquinaRepository.findByNp(np);
