@@ -1,6 +1,7 @@
 package br.com.matheus.manutencao.service;
 
 import br.com.matheus.manutencao.dto.ChamadoRequestDTO;
+import br.com.matheus.manutencao.dto.ChamadoResponseDTO;
 import br.com.matheus.manutencao.entity.Chamado;
 import br.com.matheus.manutencao.entity.Maquina;
 import br.com.matheus.manutencao.entity.Mecanico;
@@ -11,6 +12,8 @@ import br.com.matheus.manutencao.repository.MaquinaRepository;
 import br.com.matheus.manutencao.repository.MecanicoRepository;
 import br.com.matheus.manutencao.repository.SetorRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ChamadoService {
@@ -89,5 +92,37 @@ public class ChamadoService {
         }
 
         return chamadoRepository.save(chamado);
+    }
+
+    public List<ChamadoResponseDTO> listarChamados() {
+        return chamadoRepository.findAll()
+                .stream()
+                .map(this::converterParaResponseDTO)
+                .toList();
+    }
+
+    private ChamadoResponseDTO converterParaResponseDTO(Chamado chamado) {
+        ChamadoResponseDTO dto = new ChamadoResponseDTO();
+
+        dto.setId(chamado.getId());
+        dto.setTipo(chamado.getTipo());
+        dto.setDefeito(chamado.getDefeito());
+        dto.setSolucao(chamado.getSolucao());
+        dto.setData(chamado.getData());
+
+        if (chamado.getMaquina() != null) {
+            dto.setNp(chamado.getMaquina().getNp());
+            dto.setMaquina(chamado.getMaquina().getNome());
+        }
+
+        if (chamado.getSetor() != null) {
+            dto.setSetor(chamado.getSetor().getNome());
+        }
+
+        if (chamado.getMecanico() != null) {
+            dto.setMecanico(chamado.getMecanico().getNome());
+        }
+
+        return dto;
     }
 }

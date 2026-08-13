@@ -1,6 +1,7 @@
 package br.com.matheus.manutencao.controller;
 
 import br.com.matheus.manutencao.dto.ChamadoRequestDTO;
+import br.com.matheus.manutencao.dto.ChamadoResponseDTO;
 import br.com.matheus.manutencao.entity.Chamado;
 import br.com.matheus.manutencao.repository.ChamadoRepository;
 import br.com.matheus.manutencao.service.ChamadoService;
@@ -25,7 +26,7 @@ public class ChamadosController {
     @GetMapping
     public ResponseEntity<?> listarChamados () {
         try {
-            List<Chamado> listaChamados = chamadoRepository.findAll();
+            List<ChamadoResponseDTO> listaChamados = chamadoService.listarChamados();
             return ResponseEntity.ok(listaChamados);
         }catch (Exception error) {
             return ResponseEntity.status(500).body(error.getMessage());
