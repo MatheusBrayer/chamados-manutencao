@@ -3,11 +3,13 @@ package br.com.matheus.manutencao.controller;
 import br.com.matheus.manutencao.dto.ChamadoRequestDTO;
 import br.com.matheus.manutencao.dto.ChamadoResponseDTO;
 import br.com.matheus.manutencao.entity.Chamado;
+import br.com.matheus.manutencao.enums.TipoChamado;
 import br.com.matheus.manutencao.repository.ChamadoRepository;
 import br.com.matheus.manutencao.service.ChamadoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +26,27 @@ public class ChamadosController {
     }
 
     @GetMapping
-    public ResponseEntity<?> listarChamados () {
+    public ResponseEntity<?> listarChamados(
+            @RequestParam(required = false) TipoChamado tipo,
+            @RequestParam(required = false) Long setorId,
+            @RequestParam(required = false) Long np,
+            @RequestParam(required = false) Integer mecanicoMatricula,
+            @RequestParam(required = false) LocalDate dataInicio,
+            @RequestParam(required = false) LocalDate dataFim
+    ) {
         try {
-            List<ChamadoResponseDTO> listaChamados = chamadoService.listarChamados();
-            return ResponseEntity.ok(listaChamados);
-        }catch (Exception error) {
+            List<ChamadoResponseDTO> chamados = chamadoService.listarComFiltros(
+                    tipo,
+                    setorId,
+                    np,
+                    mecanicoMatricula,
+                    dataInicio,
+                    dataFim
+            );
+
+            return ResponseEntity.ok(chamados);
+
+        } catch (Exception error) {
             return ResponseEntity.status(500).body(error.getMessage());
         }
     }

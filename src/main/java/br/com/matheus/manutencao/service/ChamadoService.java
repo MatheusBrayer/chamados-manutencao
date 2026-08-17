@@ -11,8 +11,11 @@ import br.com.matheus.manutencao.repository.ChamadoRepository;
 import br.com.matheus.manutencao.repository.MaquinaRepository;
 import br.com.matheus.manutencao.repository.MecanicoRepository;
 import br.com.matheus.manutencao.repository.SetorRepository;
+import br.com.matheus.manutencao.specification.ChamadoSpecification;
 import org.springframework.stereotype.Service;
+import br.com.matheus.manutencao.specification.ChamadoSpecification;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -136,5 +139,28 @@ public class ChamadoService {
 
     public ChamadoResponseDTO buscarChamado (Chamado chamado) {
         return converterParaResponseDTO(chamado);
+    }
+
+    public List<ChamadoResponseDTO> listarComFiltros(
+            TipoChamado tipo,
+            Long setorId,
+            Long np,
+            Integer mecanicoMatricula,
+            LocalDate dataInicio,
+            LocalDate dataFim
+    ) {
+        return chamadoRepository.findAll(
+                        ChamadoSpecification.filtrar(
+                                tipo,
+                                setorId,
+                                np,
+                                mecanicoMatricula,
+                                dataInicio,
+                                dataFim
+                        )
+                )
+                .stream()
+                .map(this::converterParaResponseDTO)
+                .toList();
     }
 }
