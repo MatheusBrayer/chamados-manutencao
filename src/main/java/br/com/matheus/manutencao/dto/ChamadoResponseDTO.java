@@ -15,20 +15,14 @@ import java.time.LocalDate;
 public class ChamadoResponseDTO {
 
     private Long id;
-
     private TipoChamado tipo;
-
     private Long np;
-
     private String maquina;
-
+    private Long setorId;
     private String setor;
-
     private String mecanico;
-
     private String defeito;
-
     private String solucao;
-
     private LocalDate data;
+
 }

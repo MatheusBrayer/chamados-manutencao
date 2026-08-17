@@ -18,8 +18,9 @@ public class ChamadoRequestDTO {
     private Long np;
     private String nome;
     private Long setorId;
-    private Long mecanicoId;
+    private Integer mecanicoMatricula;
     private String defeito;
     private String solucao;
     private LocalDate data;
+
 }

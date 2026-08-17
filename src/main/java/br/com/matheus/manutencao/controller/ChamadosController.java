@@ -43,17 +43,16 @@ public class ChamadosController {
         }
     }
 
-    @GetMapping ("/{id}")
-    public ResponseEntity<?> cadastrarChamado (@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarChamado(@PathVariable Long id) {
         try {
-            if (!chamadoRepository.existsById(id)) {
-                return ResponseEntity.status(404).body("Chamado não encontrado!");
-            }
-
-            Optional<Chamado> chamado = chamadoRepository.findById(id);
-
+            ChamadoResponseDTO chamado = chamadoService.buscarChamadoPorId(id);
             return ResponseEntity.ok(chamado);
-        }catch (Exception error) {
+
+        } catch (RuntimeException error) {
+            return ResponseEntity.status(404).body(error.getMessage());
+
+        } catch (Exception error) {
             return ResponseEntity.status(500).body(error.getMessage());
         }
     }

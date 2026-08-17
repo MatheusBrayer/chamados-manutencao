@@ -40,7 +40,7 @@ public class ChamadoService {
         Setor setor = setorRepository.findById(dto.getSetorId())
                 .orElseThrow(() -> new RuntimeException("Setor não encontrado"));
 
-        Mecanico mecanico = mecanicoRepository.findById(dto.getMecanicoId())
+        Mecanico mecanico = mecanicoRepository.findByMatricula(dto.getMecanicoMatricula())
                 .orElseThrow(() -> new RuntimeException("Mecânico não encontrado"));
 
         Chamado chamado = new Chamado();
@@ -101,6 +101,13 @@ public class ChamadoService {
                 .toList();
     }
 
+    public ChamadoResponseDTO buscarChamadoPorId(Long id) {
+        Chamado chamado = chamadoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Chamado não encontrado!"));
+
+        return converterParaResponseDTO(chamado);
+    }
+
     private ChamadoResponseDTO converterParaResponseDTO(Chamado chamado) {
         ChamadoResponseDTO dto = new ChamadoResponseDTO();
 
@@ -116,6 +123,7 @@ public class ChamadoService {
         }
 
         if (chamado.getSetor() != null) {
+            dto.setSetorId(chamado.getSetor().getId());
             dto.setSetor(chamado.getSetor().getNome());
         }
 
@@ -124,5 +132,9 @@ public class ChamadoService {
         }
 
         return dto;
+    }
+
+    public ChamadoResponseDTO buscarChamado (Chamado chamado) {
+        return converterParaResponseDTO(chamado);
     }
 }
