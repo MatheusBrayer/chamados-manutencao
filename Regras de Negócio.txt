@@ -1,0 +1,43 @@
+RN001
+Todo chamado deve possuir um mecânico.
+
+RN002
+Chamados do tipo PREDIAL não precisam de máquina.
+
+RN003
+Chamados do tipo MECANICO podem possuir máquina.
+
+RN004
+Todo chamado deve pertencer a um setor.
+
+------------------------------------------------------------
+
+ROTAS
+
+POST   /api/chamados
+
+GET    /api/chamados
+
+GET    /api/chamados/{id}
+
+GET    /api/chamados/meus?matricula=23424
+
+DELETE /api/chamados/{id}
+
+GET /api/maquinas
+
+GET /api/maquinas/{id}
+
+GET /api/setores
+
+GET /api/chamados?tipo=MECANICO
+
+GET /api/chamados?tipo=PREDIAL
+
+GET /api/chamados?setor=9
+
+GET /api/chamados?maquina=1
+
+GET /api/chamados?mecanico=2
+
+GET /api/chamados?dataInicio=2026-08-01&dataFim=2026-08-31

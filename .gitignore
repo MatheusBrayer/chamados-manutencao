@@ -1,0 +1,24 @@
+# Backend Spring Boot
+manutencao/target/
+manutencao/*.db
+manutencao/*.db-journal
+manutencao/.idea/
+manutencao/*.iml
+
+# Frontend React
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*
+
+# Arquivos de ambiente
+.env
+.env.*
+
+# IDEs
+.idea/
+.vscode/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db

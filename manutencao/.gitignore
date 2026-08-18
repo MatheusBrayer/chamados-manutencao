@@ -1,0 +1,43 @@
+HELP.md
+
+# Maven
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+# SQLite
+*.db
+*.db-journal
+
+# IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+# Arquivos de ambiente
+.env
+.env.local
+application-local.properties

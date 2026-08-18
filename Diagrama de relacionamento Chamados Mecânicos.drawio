@@ -1,0 +1,62 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="f0V-ojjnVT4mJxyWrCVH">
+    <mxGraphModel dx="1414" dy="905" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-7" edge="1" parent="1" source="6ZG35lu6EIAA-X28jzf7-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endSize=10;" target="6ZG35lu6EIAA-X28jzf7-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-1" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;div style=&quot;box-sizing: border-box; width: 100%; background: rgb(228, 228, 228); padding: 2px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Usuarios&lt;/font&gt;&lt;/div&gt;&lt;table style=&quot;width:100%;font-size:1em;&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;ID (PK)&lt;/td&gt;&lt;td&gt;INT NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;MATRICULA&lt;/td&gt;&lt;td&gt;INT NOT NULL UNIQUE&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;NOME&lt;br&gt;TIPO&lt;/td&gt;&lt;td&gt;VARCHAR(30) NOT NULL&lt;br&gt;VARCHAR(20) NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="110" width="305" x="70" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-2" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;div style=&quot;box-sizing: border-box; width: 100%; background: rgb(228, 228, 228); padding: 2px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Maquinas&lt;/font&gt;&lt;/div&gt;&lt;table style=&quot;width:100%;font-size:1em;&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;ID&amp;nbsp;&lt;br&gt;NP&lt;/td&gt;&lt;td&gt;INT (PK)&amp;nbsp;NOT NULL&lt;br&gt;INT UNIQUE&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;NOME&lt;br&gt;&lt;/td&gt;&lt;td&gt;VARCHAR(30) NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ID_SETOR (FK)&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;td&gt;INT NOT NULL&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="110" width="305" x="560" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-3" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;div style=&quot;box-sizing: border-box; width: 100%; background: rgb(228, 228, 228); padding: 2px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Chamados&lt;/font&gt;&lt;/div&gt;&lt;table style=&quot;width:100%;font-size:1em;&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;ID&lt;br&gt;TIPO&lt;br&gt;MAQUINA_ID&amp;nbsp;&lt;/td&gt;&lt;td&gt;INT(PK)&lt;br&gt;VARCHAR(20) NOT NULL&lt;br&gt;INT (FK)&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;USUARIO_ID&amp;nbsp;&lt;br&gt;SETOR_ID&amp;nbsp;&lt;/td&gt;&lt;td&gt;INT(FK) NOT NULL&lt;br&gt;INT (FK) NOT NULL&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;DESCRICAO&lt;br&gt;STATUS&lt;br&gt;DATA_ABERTURA&lt;br&gt;DATA_FECHAMENTO&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;td&gt;TEXT NOT NULL&lt;br&gt;VARCHAR(20) NOT NULL&lt;br&gt;DATETIME NOT NULL&lt;br&gt;DATETIME&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="170" width="305" x="70" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-10" edge="1" parent="1" source="6ZG35lu6EIAA-X28jzf7-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;endSize=10;" target="6ZG35lu6EIAA-X28jzf7-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-11" edge="1" parent="1" source="6ZG35lu6EIAA-X28jzf7-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeWidth=2;endSize=10;" target="6ZG35lu6EIAA-X28jzf7-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-4" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;div style=&quot;box-sizing: border-box; width: 100%; background: rgb(228, 228, 228); padding: 2px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;Setor&lt;/font&gt;&lt;/div&gt;&lt;table style=&quot;width:100%;font-size:1em;&quot; cellpadding=&quot;2&quot; cellspacing=&quot;0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;ID (PK)&lt;br&gt;NOME&lt;/td&gt;&lt;td&gt;INT NOT NULL&lt;br&gt;VARCHAR (30) NOT NULL&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;br&gt;&lt;br&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="75" width="305" x="560" y="427.5" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-12" edge="1" parent="1" source="6ZG35lu6EIAA-X28jzf7-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;endSize=10;" target="6ZG35lu6EIAA-X28jzf7-3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="222.5" y="185" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-13" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=19;" value="(0,n)" vertex="1">
+          <mxGeometry height="30" width="60" x="230" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=19;" value="(1,1)" vertex="1">
+          <mxGeometry height="30" width="60" x="490" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=19;" value="(1,1)" vertex="1">
+          <mxGeometry height="30" width="60" x="650" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-16" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=19;" value="(0,n)" vertex="1">
+          <mxGeometry height="30" width="60" x="650" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=19;" value="(1,1)" vertex="1">
+          <mxGeometry height="30" width="60" x="500" y="472.5" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=19;" value="(0,n)" vertex="1">
+          <mxGeometry height="30" width="60" x="375" y="472.5" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-19" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=19;" value="(0,n)" vertex="1">
+          <mxGeometry height="30" width="60" x="230" y="555" as="geometry" />
+        </mxCell>
+        <mxCell id="6ZG35lu6EIAA-X28jzf7-20" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=19;" value="(1,1)" vertex="1">
+          <mxGeometry height="30" width="60" x="230" y="670" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
