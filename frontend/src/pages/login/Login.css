@@ -85,8 +85,12 @@
 }
 
 .botao-login {
+  display: block;
+  visibility: visible;
   width: 100%;
+  min-height: 48px;
   padding: 14px;
+  margin-top: 4px;
   border: none;
   border-radius: 8px;
   color: #ffffff;
@@ -94,11 +98,20 @@
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  opacity: 1;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .botao-login:hover {
+  background-color: #124ec4;
   transform: scale(1.01);
+}
+
+.botao-login:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
 }
 
 @media (max-width: 480px) {

@@ -1,29 +1,42 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-import "./Login.css";
-import "../../style/globals.css";
-import "../../style/Index.css";
-
 import vulcabras from "../../img/vulcabras.png";
+import { realizarLogin } from "../../service/autenticacaoService";
+import "../../style/globals.css";
+import "./Login.css";
+import "../../style/Index.css";
 
 function Login() {
   const [matricula, definirMatricula] = useState("");
   const [nome, definirNome] = useState("");
+  const [erro, definirErro] = useState("");
+  const [carregando, definirCarregando] = useState(false);
 
   const navegar = useNavigate();
 
-  function enviarFormulario(evento) {
+  async function enviarFormulario(evento) {
     evento.preventDefault();
 
-    const dadosLogin = {
-      matricula: Number(matricula),
-      nome: nome.trim(),
-    };
+    try {
+      definirCarregando(true);
+      definirErro("");
 
-    localStorage.setItem("usuarioLogado", JSON.stringify(dadosLogin));
+      const dadosLogin = {
+        matricula: Number(matricula),
+        nome: nome.trim(),
+      };
 
-    navegar("/dashboard");
+      const mecanico = await realizarLogin(dadosLogin);
+
+      localStorage.setItem("usuarioLogado", JSON.stringify(mecanico));
+
+      navegar("/dashboard");
+    } catch (erroRequisicao) {
+      definirErro(erroRequisicao.message);
+    } finally {
+      definirCarregando(false);
+    }
   }
 
   return (
@@ -31,10 +44,10 @@ function Login() {
       <section className="cartao-login">
         <header className="cabecalho-login">
           <div className="logo-login">
-            <img src={vulcabras} alt="Vulcabras" />
+            <img src={vulcabras} alt="logo vulcabras" />
           </div>
 
-          <h1>Chamados Manutenção</h1>
+          <h1>Manutenção Vulcabras</h1>
 
           <p>Informe sua matrícula e seu nome para acessar o sistema.</p>
         </header>
@@ -47,10 +60,12 @@ function Login() {
               id="matricula"
               name="matricula"
               type="number"
-              min="4"
+              min="1"
               value={matricula}
               onChange={(evento) => definirMatricula(evento.target.value)}
               placeholder="Digite sua matrícula"
+              autoComplete="username"
+              disabled={carregando}
               required
             />
           </div>
@@ -64,14 +79,21 @@ function Login() {
               type="text"
               value={nome}
               onChange={(evento) => definirNome(evento.target.value)}
-              placeholder="Digite seu nome"
+              placeholder="Digite seu nome completo"
               autoComplete="name"
+              disabled={carregando}
               required
             />
           </div>
 
-          <button className="botao-login" type="submit">
-            Entrar
+          {erro && (
+            <p className="mensagem-erro-login" role="alert">
+              {erro}
+            </p>
+          )}
+
+          <button className="botao-login" type="submit" disabled={carregando}>
+            {carregando ? "Entrando..." : "Entrar"}
           </button>
         </form>
       </section>
