@@ -1,13 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+
 import "./Login.css";
 import "../../style/globals.css";
 import "../../style/Index.css";
-import "../../style/Index.css";
+
 import vulcabras from "../../img/vulcabras.png";
 
 function Login() {
   const [matricula, definirMatricula] = useState("");
   const [nome, definirNome] = useState("");
+
+  const navegar = useNavigate();
 
   function enviarFormulario(evento) {
     evento.preventDefault();
@@ -17,7 +21,9 @@ function Login() {
       nome: nome.trim(),
     };
 
-    console.log("Dados do login:", dadosLogin);
+    localStorage.setItem("usuarioLogado", JSON.stringify(dadosLogin));
+
+    navegar("/dashboard");
   }
 
   return (

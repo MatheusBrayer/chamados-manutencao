@@ -1,7 +1,19 @@
+import { Navigate, Route, Routes } from "react-router";
+
+import Login from "./pages/Login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 
 function App() {
-  return <Dashboard />;
-}
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
 
+      <Route path="/dashboard" element={<Dashboard />} />
+
+      <Route path="/" element={<Navigate to="/login" replace />} />
+
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
+  );
+}
 export default App;

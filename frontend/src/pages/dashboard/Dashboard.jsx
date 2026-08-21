@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+
 import "./Dashboard.css";
 import GraficoPizza from "../../components/graficoPizza/GraficoPizza";
-
 import GraficosMensais from "../../components/graficosMensais/GraficosMensais";
 
 import {
@@ -10,6 +11,8 @@ import {
 } from "../../service/IndicadoresService";
 
 function Dashboard() {
+  const navegar = useNavigate();
+
   const [indicadores, definirIndicadores] = useState(null);
   const [carregando, definirCarregando] = useState(true);
   const [erro, definirErro] = useState("");
@@ -17,6 +20,13 @@ function Dashboard() {
   const [anoSelecionado, definirAnoSelecionado] = useState(
     new Date().getFullYear(),
   );
+
+  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  function sairDoSistema() {
+    localStorage.removeItem("usuarioLogado");
+    navegar("/login");
+  }
 
   useEffect(() => {
     async function carregarDadosDashboard() {
@@ -41,25 +51,6 @@ function Dashboard() {
     carregarDadosDashboard();
   }, [anoSelecionado]);
 
-  useEffect(() => {
-    async function carregarIndicadores() {
-      try {
-        definirCarregando(true);
-        definirErro("");
-
-        const dados = await buscarIndicadores();
-
-        definirIndicadores(dados);
-      } catch (erroRequisicao) {
-        definirErro(erroRequisicao.message);
-      } finally {
-        definirCarregando(false);
-      }
-    }
-
-    carregarIndicadores();
-  }, []);
-
   if (carregando) {
     return <p className="mensagem-dashboard">Carregando indicadores...</p>;
   }
@@ -73,6 +64,9 @@ function Dashboard() {
       <header className="cabecalho-dashboard">
         <div>
           <h1>Manutenção Vulcabras</h1>
+
+          <p>Olá, {usuarioLogado?.nome || "Mecânico"}</p>
+
           <p>Visão geral dos registros de manutenção</p>
         </div>
 
@@ -84,34 +78,42 @@ function Dashboard() {
 
             <div className="opcoes-registros">
               <button type="button">Chamados</button>
+
               <button type="button">Máquinas</button>
+
               <button type="button">Mecânicos</button>
             </div>
           </details>
 
-          <button type="button">Sair</button>
+          <button type="button" onClick={sairDoSistema}>
+            Sair
+          </button>
         </nav>
       </header>
 
       <section className="conteudo-dashboard">
         <div className="titulo-dashboard">
           <h2>Indicadores gerais</h2>
+
           <p>Resumo de todos os registros cadastrados.</p>
         </div>
 
         <div className="grade-indicadores">
           <article className="cartao-indicador cartao-total">
             <span>Total de chamados</span>
+
             <strong>{indicadores.totalChamados}</strong>
           </article>
 
           <article className="cartao-indicador cartao-maquina">
             <span>Chamados de máquina</span>
+
             <strong>{indicadores.chamadosMaquina}</strong>
           </article>
 
           <article className="cartao-indicador cartao-predial">
             <span>Chamados prediais</span>
+
             <strong>{indicadores.chamadosPredial}</strong>
           </article>
         </div>
@@ -132,6 +134,7 @@ function Dashboard() {
             <div className="cabecalho-evolucao">
               <div>
                 <h2>Evolução mensal</h2>
+
                 <p>Acompanhe a quantidade de chamados ao longo do ano.</p>
               </div>
 
