@@ -9,3 +9,13 @@ export async function buscarIndicadores() {
 
   return resposta.json();
 }
+
+export async function buscarIndicadoresMensais(ano) {
+  const resposta = await fetch(`${URL_API}/indicadores/mensais?ano=${ano}`);
+
+  if (!resposta.ok) {
+    throw new Error("Não foi possível carregar os indicadores mensais.");
+  }
+
+  return resposta.json();
+}

@@ -1,0 +1,47 @@
+.secao-graficos-mensais {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.cartao-grafico-mensal {
+  min-width: 0;
+  padding: 24px;
+  border-radius: 14px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 22px rgba(16, 24, 40, 0.08);
+}
+
+.cabecalho-grafico-mensal {
+  margin-bottom: 24px;
+}
+
+.cabecalho-grafico-mensal h2 {
+  margin: 0 0 6px;
+  color: #1d2939;
+  font-size: 20px;
+}
+
+.cabecalho-grafico-mensal p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.5;
+}
+
+.conteudo-grafico-mensal {
+  width: 100%;
+  min-height: 320px;
+}
+
+@media (max-width: 950px) {
+  .secao-graficos-mensais {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .cartao-grafico-mensal {
+    padding: 18px 10px;
+  }
+}

@@ -6,7 +6,8 @@ import br.com.matheus.manutencao.service.IndicadoresService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import br.com.matheus.manutencao.dto.IndicadorMensalDTO;
+import java.util.List;
 import java.time.LocalDate;
 
 @RestController
@@ -51,6 +52,26 @@ public class IndicadoresController {
 
         } catch (Exception error) {
             return ResponseEntity.status(500).body("Erro ao buscar indicadores: " + error.getMessage());
+        }
+    }
+
+    @GetMapping("/mensais")
+    public ResponseEntity<?> buscarIndicadoresMensais(
+            @RequestParam Integer ano
+    ) {
+        try {
+            List<IndicadorMensalDTO> indicadoresMensais =
+                    indicadoresService.buscarIndicadoresMensais(ano);
+
+            return ResponseEntity.ok(indicadoresMensais);
+
+        } catch (Exception erro) {
+            return ResponseEntity
+                    .status(500)
+                    .body(
+                            "Erro ao buscar indicadores mensais: ");
+
+
         }
     }
 }

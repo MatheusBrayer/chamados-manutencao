@@ -1,11 +1,45 @@
 import { useEffect, useState } from "react";
-import { buscarIndicadores } from "../../service/IndicadoresService";
 import "./Dashboard.css";
+import GraficoPizza from "../../components/graficoPizza/GraficoPizza";
+
+import GraficosMensais from "../../components/graficosMensais/GraficosMensais";
+
+import {
+  buscarIndicadores,
+  buscarIndicadoresMensais,
+} from "../../service/IndicadoresService";
 
 function Dashboard() {
   const [indicadores, definirIndicadores] = useState(null);
   const [carregando, definirCarregando] = useState(true);
   const [erro, definirErro] = useState("");
+  const [indicadoresMensais, definirIndicadoresMensais] = useState([]);
+  const [anoSelecionado, definirAnoSelecionado] = useState(
+    new Date().getFullYear(),
+  );
+
+  useEffect(() => {
+    async function carregarDadosDashboard() {
+      try {
+        definirCarregando(true);
+        definirErro("");
+
+        const [dadosIndicadores, dadosMensais] = await Promise.all([
+          buscarIndicadores(),
+          buscarIndicadoresMensais(anoSelecionado),
+        ]);
+
+        definirIndicadores(dadosIndicadores);
+        definirIndicadoresMensais(dadosMensais);
+      } catch (erroRequisicao) {
+        definirErro(erroRequisicao.message);
+      } finally {
+        definirCarregando(false);
+      }
+    }
+
+    carregarDadosDashboard();
+  }, [anoSelecionado]);
 
   useEffect(() => {
     async function carregarIndicadores() {
@@ -83,11 +117,43 @@ function Dashboard() {
         </div>
 
         <section className="area-grafico">
-          <h2>Distribuição dos chamados</h2>
+          <div className="cabecalho-grafico">
+            <h2>Distribuição dos chamados</h2>
 
-          <div className="grafico-provisorio">
-            O gráfico de pizza será colocado aqui.
+            <p>Comparação entre chamados de máquina e chamados prediais.</p>
           </div>
+
+          <GraficoPizza
+            chamadosMaquina={indicadores.chamadosMaquina}
+            chamadosPredial={indicadores.chamadosPredial}
+          />
+
+          <section className="area-evolucao-mensal">
+            <div className="cabecalho-evolucao">
+              <div>
+                <h2>Evolução mensal</h2>
+                <p>Acompanhe a quantidade de chamados ao longo do ano.</p>
+              </div>
+
+              <div className="campo-ano">
+                <label htmlFor="ano-dashboard">Ano</label>
+
+                <select
+                  id="ano-dashboard"
+                  value={anoSelecionado}
+                  onChange={(evento) =>
+                    definirAnoSelecionado(Number(evento.target.value))
+                  }
+                >
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                  <option value="2027">2027</option>
+                </select>
+              </div>
+            </div>
+
+            <GraficosMensais dadosMensais={indicadoresMensais} />
+          </section>
         </section>
       </section>
     </main>

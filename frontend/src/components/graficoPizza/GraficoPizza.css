@@ -1,0 +1,21 @@
+.grafico-pizza {
+  width: 100%;
+  min-height: 320px;
+}
+
+.grafico-sem-dados {
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  border: 2px dashed #d0d5dd;
+  border-radius: 10px;
+  color: #667085;
+  background-color: #f9fafb;
+  text-align: center;
+}
+
+.grafico-sem-dados p {
+  margin: 0;
+}

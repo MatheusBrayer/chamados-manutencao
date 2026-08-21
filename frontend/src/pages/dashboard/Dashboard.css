@@ -145,13 +145,16 @@
   margin-top: 0;
 }
 
-.grafico-provisorio {
-  min-height: 280px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed #d0d5dd;
-  border-radius: 10px;
+.cabecalho-grafico {
+  margin-bottom: 16px;
+}
+
+.cabecalho-grafico h2 {
+  margin: 0 0 6px;
+}
+
+.cabecalho-grafico p {
+  margin: 0;
   color: #667085;
 }
 
@@ -161,4 +164,49 @@
   align-items: center;
   justify-content: center;
   margin: 0;
+}
+
+.area-evolucao-mensal {
+  margin-top: 36px;
+}
+
+.cabecalho-evolucao {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cabecalho-evolucao h2 {
+  margin: 0 0 6px;
+}
+
+.cabecalho-evolucao p {
+  margin: 0;
+  color: #667085;
+}
+
+.campo-ano {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.campo-ano label {
+  font-weight: 700;
+}
+
+.campo-ano select {
+  padding: 9px 12px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  color: #344054;
+  background-color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .cabecalho-evolucao {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
