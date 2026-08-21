@@ -71,7 +71,9 @@ function Dashboard() {
         </div>
 
         <nav className="navegacao-dashboard">
-          <button type="button">Novo Registro</button>
+          <button type="button" onClick={() => navegar("/novo-registro")}>
+            Novo Registro
+          </button>
 
           <details className="menu-registros">
             <summary>Registros</summary>
