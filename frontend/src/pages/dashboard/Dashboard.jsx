@@ -79,7 +79,9 @@ function Dashboard() {
             <summary>Registros</summary>
 
             <div className="opcoes-registros">
-              <button type="button">Chamados</button>
+              <button type="button" onClick={() => navegar("/chamados")}>
+                Chamados
+              </button>
 
               <button type="button">Máquinas</button>
 
