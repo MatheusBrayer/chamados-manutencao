@@ -1,7 +1,9 @@
 package br.com.matheus.manutencao.controller;
 
+import br.com.matheus.manutencao.dto.MaquinaResponseDTO;
 import br.com.matheus.manutencao.entity.Maquina;
 import br.com.matheus.manutencao.repository.MaquinaRepository;
+import br.com.matheus.manutencao.service.MaquinaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,43 +15,76 @@ import java.util.Optional;
 public class MaquinaController {
 
     private final MaquinaRepository maquinaRepository;
+    private final MaquinaService maquinaService;
 
-    public MaquinaController (MaquinaRepository maquinaRepository) {
+    public MaquinaController(
+            MaquinaRepository maquinaRepository,
+            MaquinaService maquinaService
+    ) {
         this.maquinaRepository = maquinaRepository;
+        this.maquinaService = maquinaService;
     }
 
     @GetMapping
-    public ResponseEntity<?> listarMaquinas () {
+    public ResponseEntity<?> listarMaquinas() {
         try {
-            List<Maquina> listaMaquinas = maquinaRepository.findAll();
-            return ResponseEntity.ok(listaMaquinas);
-        }catch (Exception error) {
-            return ResponseEntity.status(500).body("Erro ao listar máquinas: " + error.getMessage());
+            List<MaquinaResponseDTO> maquinas =
+                    maquinaService.listarMaquinas();
+
+            return ResponseEntity.ok(maquinas);
+
+        } catch (Exception erro) {
+            return ResponseEntity
+                    .status(500)
+                    .body(
+                            "Erro ao listar máquinas: "
+                                    + erro.getMessage()
+                    );
         }
     }
 
-    @PostMapping
-    public ResponseEntity<?> cadastrarMaquina (@RequestBody Maquina novaMaquina) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarMaquinaPorId(
+            @PathVariable Long id
+    ) {
         try {
-            Maquina maquinaSalva = maquinaRepository.save(novaMaquina);
-            return ResponseEntity.status(201).body(maquinaSalva);
-        }catch (Exception error) {
-            return ResponseEntity.status(500).body("Erro ao cadastrar máquina: " + error.getMessage());
-        }
-    }
+            Optional<Maquina> maquina =
+                    maquinaRepository.findById(id);
 
-    @GetMapping("/{np}")
-    public ResponseEntity<?> buscarPorNp (@PathVariable Long np) {
-        try {
-            Optional<Maquina> maquinaEncontrada = maquinaRepository.findByNp(np);
-
-            if (maquinaEncontrada.isPresent()) {
-                return ResponseEntity.ok(maquinaEncontrada.get());
+            if (maquina.isEmpty()) {
+                return ResponseEntity
+                        .status(404)
+                        .body("Máquina não encontrada!");
             }
 
-            return ResponseEntity.status(404).body("Máquina não cadastrada!");
-        }catch (Exception error) {
-            return ResponseEntity.status(500).body("Erro ao buscar máquina: " + error.getMessage());
+            return ResponseEntity.ok(maquina.get());
+
+        } catch (Exception erro) {
+            return ResponseEntity
+                    .status(500)
+                    .body(erro.getMessage());
+        }
+    }
+
+    @GetMapping("/np/{np}")
+    public ResponseEntity<?> buscarMaquinaPorNp(
+            @PathVariable Long np
+    ) {
+        try {
+            MaquinaResponseDTO maquina =
+                    maquinaService.buscarMaquinaPorNp(np);
+
+            return ResponseEntity.ok(maquina);
+
+        } catch (RuntimeException erro) {
+            return ResponseEntity
+                    .status(404)
+                    .body(erro.getMessage());
+
+        } catch (Exception erro) {
+            return ResponseEntity
+                    .status(500)
+                    .body("Erro ao buscar máquina.");
         }
     }
 }

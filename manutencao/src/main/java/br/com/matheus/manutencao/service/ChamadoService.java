@@ -42,10 +42,15 @@ public class ChamadoService {
     public Chamado cadastrarChamado(ChamadoRequestDTO dto) {
 
         Setor setor = setorRepository.findById(dto.getSetorId())
-                .orElseThrow(() -> new RuntimeException("Setor não encontrado"));
+                .orElseThrow(() ->
+                        new RuntimeException("Setor não encontrado")
+                );
 
-        Mecanico mecanico = mecanicoRepository.findByMatricula(dto.getMecanicoMatricula())
-                .orElseThrow(() -> new RuntimeException("Mecânico não encontrado"));
+        Mecanico mecanico = mecanicoRepository
+                .findByMatricula(dto.getMecanicoMatricula())
+                .orElseThrow(() ->
+                        new RuntimeException("Mecânico não encontrado")
+                );
 
         Chamado chamado = new Chamado();
 
@@ -64,28 +69,50 @@ public class ChamadoService {
 
                 maquina = maquinaRepository.findByNp(dto.getNp())
                         .orElseGet(() -> {
-                            if (dto.getNome() == null || dto.getNome().isBlank()) {
-                                throw new RuntimeException("Nome da máquina é obrigatório quando o NP não está cadastrado!");
+                            if (
+                                    dto.getNome() == null ||
+                                            dto.getNome().isBlank()
+                            ) {
+                                throw new RuntimeException(
+                                        "Nome da máquina é obrigatório quando o NP não está cadastrado!"
+                                );
                             }
 
                             Maquina novaMaquina = new Maquina();
+
                             novaMaquina.setNp(dto.getNp());
                             novaMaquina.setNome(dto.getNome());
+                            novaMaquina.setSetor(setor);
 
                             return maquinaRepository.save(novaMaquina);
                         });
 
             } else {
 
-                if (dto.getNome() == null || dto.getNome().isBlank()) {
-                    throw new RuntimeException("Nome da máquina é obrigatório quando a máquina não possui NP!");
+                if (
+                        dto.getNome() == null ||
+                                dto.getNome().isBlank()
+                ) {
+                    throw new RuntimeException(
+                            "Nome da máquina é obrigatório quando a máquina não possui NP!"
+                    );
                 }
 
                 Maquina novaMaquina = new Maquina();
+
                 novaMaquina.setNp(null);
                 novaMaquina.setNome(dto.getNome());
+                novaMaquina.setSetor(setor);
 
                 maquina = maquinaRepository.save(novaMaquina);
+            }
+
+            if (
+                    maquina.getSetor() == null ||
+                            !maquina.getSetor().getId().equals(setor.getId())
+            ) {
+                maquina.setSetor(setor);
+                maquina = maquinaRepository.save(maquina);
             }
 
             chamado.setMaquina(maquina);
@@ -274,6 +301,7 @@ public class ChamadoService {
                             Maquina novaMaquina = new Maquina();
                             novaMaquina.setNp(dto.getNp());
                             novaMaquina.setNome(dto.getNome());
+                            novaMaquina.setSetor(setor);
 
                             return maquinaRepository.save(
                                     novaMaquina
@@ -292,10 +320,19 @@ public class ChamadoService {
                 Maquina novaMaquina = new Maquina();
                 novaMaquina.setNp(null);
                 novaMaquina.setNome(dto.getNome());
+                novaMaquina.setSetor(setor);
 
                 maquina = maquinaRepository.save(
                         novaMaquina
                 );
+            }
+
+            if (
+                    maquina.getSetor() == null ||
+                            !maquina.getSetor().getId().equals(setor.getId())
+            ) {
+                maquina.setSetor(setor);
+                maquina = maquinaRepository.save(maquina);
             }
 
             chamado.setMaquina(maquina);

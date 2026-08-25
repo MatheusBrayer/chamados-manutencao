@@ -23,4 +23,8 @@ public class Maquina {
 
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "setor_id")
+    private Setor setor;
 }
