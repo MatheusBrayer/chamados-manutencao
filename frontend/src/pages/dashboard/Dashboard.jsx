@@ -83,7 +83,12 @@ function Dashboard() {
                 Chamados
               </button>
 
-              <button type="button">Máquinas</button>
+              <button
+                type="button"
+                onClick={() => navegar("/registros/maquinas")}
+              >
+                Máquinas
+              </button>
 
               <button
                 type="button"
