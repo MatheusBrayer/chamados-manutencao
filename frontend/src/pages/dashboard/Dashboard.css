@@ -11,7 +11,7 @@
   gap: 32px;
   padding: 20px 6%;
   color: #ffffff;
-  background-color: #075636;
+  background-color: var(--cor-azul);
 }
 
 .cabecalho-dashboard h1 {
@@ -22,6 +22,52 @@
 .cabecalho-dashboard p {
   margin: 0;
   color: #d1fae5;
+}
+
+.topo-cabecalho-dashboard {
+  min-width: 0;
+}
+
+.identificacao-dashboard {
+  min-width: 0;
+}
+
+.identificacao-dashboard h1 {
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.identificacao-dashboard p {
+  margin: 0 0 4px;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.identificacao-dashboard span {
+  display: block;
+  color: #d1fae5;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.botao-menu-dashboard {
+  display: none;
+  min-height: 42px;
+  padding: 9px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  color: #ffffff;
+  background-color: transparent;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botao-menu-dashboard:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.botao-sair-dashboard {
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
 }
 
 .navegacao-dashboard {
@@ -97,12 +143,14 @@
 }
 
 .grade-indicadores {
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 
 .cartao-indicador {
+  min-width: 0;
   min-height: 150px;
   display: flex;
   flex-direction: column;
@@ -204,9 +252,224 @@
   background-color: #ffffff;
 }
 
-@media (max-width: 600px) {
-  .cabecalho-evolucao {
-    align-items: flex-start;
+@media (max-width: 900px) {
+  .cabecalho-dashboard {
+    align-items: stretch;
     flex-direction: column;
+    gap: 18px;
+    padding: 20px 24px;
+  }
+
+  .navegacao-dashboard {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .navegacao-dashboard > button,
+  .menu-registros {
+    flex: 1;
+  }
+
+  .menu-registros summary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .grade-indicadores {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .conteudo-dashboard {
+    width: calc(100% - 32px);
+  }
+}
+
+@media (max-width: 600px) {
+  .cabecalho-dashboard {
+    width: 100%;
+    display: block;
+    padding: 18px 16px;
+    overflow: visible;
+  }
+
+  .topo-cabecalho-dashboard {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .identificacao-dashboard {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .identificacao-dashboard h1 {
+    max-width: 190px;
+    margin: 0 0 6px;
+    font-size: 22px;
+    line-height: 1.25;
+  }
+
+  .identificacao-dashboard p {
+    max-width: 200px;
+    margin: 0 0 4px;
+    font-size: 14px;
+  }
+
+  .identificacao-dashboard span {
+    max-width: 210px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .botao-menu-dashboard {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  /* Esconde a navegação enquanto o menu está fechado */
+
+  .navegacao-dashboard {
+    display: none;
+    width: 100%;
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Mostra a navegação quando menuAberto for true */
+
+  .navegacao-dashboard.navegacao-aberta {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .navegacao-dashboard > button,
+  .menu-registros,
+  .menu-registros summary {
+    width: 100%;
+  }
+
+  .navegacao-dashboard > button,
+  .menu-registros summary {
+    min-height: 46px;
+    padding: 12px 14px;
+    text-align: left;
+  }
+
+  .menu-registros {
+    position: static;
+  }
+
+  .opcoes-registros {
+    position: static;
+    width: 100%;
+    margin-top: 6px;
+    padding: 6px;
+    box-shadow: none;
+  }
+
+  .opcoes-registros button {
+    min-height: 43px;
+  }
+
+  .botao-sair-dashboard {
+    margin-top: 4px;
+    text-align: center !important;
+  }
+
+  /* Área de conteúdo */
+
+  .conteudo-dashboard {
+    width: calc(100% - 24px);
+    padding: 28px 0;
+    overflow-x: hidden;
+  }
+
+  .titulo-dashboard {
+    margin-bottom: 20px;
+  }
+
+  .titulo-dashboard h2 {
+    font-size: 23px;
+  }
+
+  /* Um card por linha */
+
+  .grade-indicadores {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .cartao-indicador {
+    width: 100%;
+    min-height: 125px;
+    padding: 20px;
+  }
+
+  .cartao-indicador strong {
+    font-size: 36px;
+  }
+
+  /* Gráfico de pizza */
+
+  .area-grafico {
+    width: 100%;
+    min-width: 0;
+    margin-top: 24px;
+    padding: 20px 12px;
+    overflow: hidden;
+  }
+
+  .cabecalho-grafico {
+    padding: 0 6px;
+  }
+
+  .grafico-pizza {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Evolução mensal */
+
+  .area-evolucao-mensal {
+    margin-top: 28px;
+  }
+
+  .cabecalho-evolucao {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .campo-ano {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .campo-ano select {
+    min-width: 130px;
+  }
+
+  .secao-graficos-mensais {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .cartao-grafico-mensal {
+    width: 100%;
+    min-width: 0;
+    padding: 18px 8px;
+    overflow: hidden;
+  }
+
+  .conteudo-grafico-mensal {
+    width: 100%;
+    min-width: 0;
   }
 }

@@ -12,7 +12,7 @@ import {
 
 function Dashboard() {
   const navegar = useNavigate();
-
+  const [menuAberto, definirMenuAberto] = useState(false);
   const [indicadores, definirIndicadores] = useState(null);
   const [carregando, definirCarregando] = useState(true);
   const [erro, definirErro] = useState("");
@@ -62,16 +62,49 @@ function Dashboard() {
   return (
     <main className="pagina-dashboard">
       <header className="cabecalho-dashboard">
-        <div>
-          <h1>Manutenção Vulcabras</h1>
+        <div className="topo-cabecalho-dashboard">
+          <div className="identificacao-dashboard">
+            <h1>Manutenção Vulcabras</h1>
 
-          <p>Olá, {usuarioLogado?.nome || "Mecânico"}</p>
+            <p>Olá, {usuarioLogado?.nome || "Usuário"}</p>
+          </div>
 
-          <p>Visão geral dos registros de manutenção</p>
+          <button
+            type="button"
+            className="botao-menu-dashboard"
+            onClick={() => definirMenuAberto((estadoAtual) => !estadoAtual)}
+            aria-expanded={menuAberto}
+            aria-controls="navegacao-dashboard"
+          >
+            {menuAberto ? "Fechar" : "Menu"}
+          </button>
         </div>
 
-        <nav className="navegacao-dashboard">
-          <button type="button" onClick={() => navegar("/novo-registro")}>
+        <nav
+          id="navegacao-dashboard"
+          className={
+            menuAberto
+              ? "navegacao-dashboard navegacao-aberta"
+              : "navegacao-dashboard"
+          }
+        >
+          <button
+            type="button"
+            onClick={() => {
+              navegar("/dashboard");
+              definirMenuAberto(false);
+            }}
+          >
+            Dashboard
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              navegar("/novo-registro");
+              definirMenuAberto(false);
+            }}
+          >
             Novo Registro
           </button>
 
@@ -79,27 +112,43 @@ function Dashboard() {
             <summary>Registros</summary>
 
             <div className="opcoes-registros">
-              <button type="button" onClick={() => navegar("/chamados")}>
+              <button
+                type="button"
+                onClick={() => {
+                  navegar("/chamados");
+                  definirMenuAberto(false);
+                }}
+              >
                 Chamados
               </button>
 
               <button
                 type="button"
-                onClick={() => navegar("/registros/maquinas")}
+                onClick={() => {
+                  navegar("/registros/maquinas");
+                  definirMenuAberto(false);
+                }}
               >
                 Máquinas
               </button>
 
               <button
                 type="button"
-                onClick={() => navegar("/registros/mecanicos")}
+                onClick={() => {
+                  navegar("/registros/mecanicos");
+                  definirMenuAberto(false);
+                }}
               >
                 Mecânicos
               </button>
             </div>
           </details>
 
-          <button type="button" onClick={sairDoSistema}>
+          <button
+            type="button"
+            className="botao-sair-dashboard"
+            onClick={sairDoSistema}
+          >
             Sair
           </button>
         </nav>

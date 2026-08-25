@@ -244,3 +244,142 @@
     width: 100%;
   }
 }
+
+.modal-detalhes-chamado {
+  display: flex;
+  flex-direction: column;
+  max-height: min(760px, calc(100vh - 48px));
+  overflow: hidden;
+}
+
+.conteudo-modal-chamado {
+  overflow-y: auto;
+}
+
+@media (max-width: 650px) {
+  .fundo-modal-chamado {
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .modal-detalhes-chamado {
+    width: min(100%, 355px);
+    max-height: none;
+    padding: 14px;
+    border-radius: 14px;
+    overflow: visible;
+  }
+
+  .cabecalho-modal-chamado {
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+  }
+
+  .cabecalho-modal-chamado h2 {
+    margin-top: 6px;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  .etiqueta-tipo {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+
+  .botao-fechar-modal {
+    width: 32px;
+    height: 32px;
+    font-size: 22px;
+  }
+
+  .grade-dados-chamado {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .dado-chamado {
+    min-width: 0;
+    padding: 9px 10px;
+    border-radius: 7px;
+  }
+
+  .dado-chamado span {
+    font-size: 10px;
+  }
+
+  .dado-chamado strong {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .textos-chamado {
+    gap: 8px;
+  }
+
+  .textos-chamado div {
+    padding: 10px;
+    border-radius: 7px;
+  }
+
+  .textos-chamado h3 {
+    margin: 0 0 4px;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .textos-chamado p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .rodape-modal-chamado {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 12px;
+    padding-top: 10px;
+  }
+
+  .acoes-principais-modal,
+  .acoes-secundarias-modal {
+    display: flex;
+    width: auto;
+    align-items: center;
+    flex-direction: row;
+    gap: 7px;
+  }
+
+  .botao-excluir-chamado,
+  .botao-fechar-detalhes,
+  .botao-editar-chamado {
+    width: auto;
+    min-height: 36px;
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .fundo-modal-chamado {
+    padding: 10px;
+  }
+
+  .modal-detalhes-chamado {
+    max-height: 92vh;
+    padding: 15px;
+  }
+
+  .grade-dados-chamado {
+    grid-template-columns: 1fr;
+  }
+
+  .acoes-secundarias-modal {
+    grid-template-columns: 1fr;
+  }
+}

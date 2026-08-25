@@ -308,7 +308,7 @@ function EditarChamadoModal({ chamado, aoFechar, aoConcluir }) {
 
               <textarea
                 id="edicao-defeito"
-                rows="4"
+                rows="2"
                 maxLength="255"
                 value={defeito}
                 onChange={(evento) => definirDefeito(evento.target.value)}
@@ -322,7 +322,7 @@ function EditarChamadoModal({ chamado, aoFechar, aoConcluir }) {
 
               <textarea
                 id="edicao-solucao"
-                rows="4"
+                rows="2"
                 maxLength="255"
                 value={solucao}
                 onChange={(evento) => definirSolucao(evento.target.value)}

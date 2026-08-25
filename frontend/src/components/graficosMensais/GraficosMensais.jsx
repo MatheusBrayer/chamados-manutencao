@@ -43,12 +43,30 @@ function GraficosMensais({ dadosMensais }) {
 
         <div className="conteudo-grafico-mensal">
           <ResponsiveContainer width="100%" height={320}>
-            <LineChart data={dadosFormatados}>
+            <LineChart
+              data={dadosFormatados}
+              margin={{
+                top: 10,
+                right: 12,
+                bottom: 10,
+                left: -18,
+              }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
 
-              <XAxis dataKey="nomeMes" />
+              <XAxis
+                dataKey="nomeMes"
+                interval={0}
+                tick={{ fontSize: 12 }}
+                tickMargin={8}
+              />
 
-              <YAxis allowDecimals={false} domain={[0, "auto"]} />
+              <YAxis
+                allowDecimals={false}
+                domain={[0, "auto"]}
+                width={34}
+                tick={{ fontSize: 12 }}
+              />
 
               <Tooltip />
 
@@ -85,12 +103,30 @@ function GraficosMensais({ dadosMensais }) {
 
         <div className="conteudo-grafico-mensal">
           <ResponsiveContainer width="100%" height={320}>
-            <LineChart data={dadosFormatados}>
+            <LineChart
+              data={dadosFormatados}
+              margin={{
+                top: 10,
+                right: 12,
+                bottom: 10,
+                left: -18,
+              }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
 
-              <XAxis dataKey="nomeMes" />
+              <XAxis
+                dataKey="nomeMes"
+                interval={0}
+                tick={{ fontSize: 12 }}
+                tickMargin={8}
+              />
 
-              <YAxis allowDecimals={false} domain={[0, "auto"]} />
+              <YAxis
+                allowDecimals={false}
+                domain={[0, "auto"]}
+                width={34}
+                tick={{ fontSize: 12 }}
+              />
 
               <Tooltip />
 
