@@ -85,7 +85,12 @@ function Dashboard() {
 
               <button type="button">Máquinas</button>
 
-              <button type="button">Mecânicos</button>
+              <button
+                type="button"
+                onClick={() => navegar("/registros/mecanicos")}
+              >
+                Mecânicos
+              </button>
             </div>
           </details>
 

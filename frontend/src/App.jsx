@@ -4,6 +4,7 @@ import Login from "./pages/Login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import NovoRegistro from "./pages/novoRegistro/NovoRegistro";
 import Chamados from "./pages/chamados/Chamados";
+import Mecanicos from "./pages/mecanicos/Mecanicos";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
       <Route path="/novo-registro" element={<NovoRegistro />} />
 
       <Route path="/chamados" element={<Chamados />} />
+
+      <Route path="/registros/mecanicos" element={<Mecanicos />} />
 
       <Route path="/" element={<Navigate to="/login" replace />} />
 

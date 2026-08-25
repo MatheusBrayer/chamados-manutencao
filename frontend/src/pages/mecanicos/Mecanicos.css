@@ -1,0 +1,294 @@
+.pagina-mecanicos {
+  min-height: 100vh;
+  padding: 40px 20px;
+  color: #1d2939;
+  background-color: #f2f4f7;
+}
+
+.carregamento-mecanicos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carregamento-mecanicos p {
+  margin: 0;
+  color: #475467;
+  font-size: 16px;
+}
+
+.cabecalho-pagina-mecanicos {
+  width: min(1000px, 100%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0 auto 28px;
+}
+
+.cabecalho-pagina-mecanicos h1 {
+  margin: 0 0 6px;
+  color: #101828;
+  font-size: 28px;
+}
+
+.cabecalho-pagina-mecanicos p {
+  margin: 0;
+  color: #667085;
+  line-height: 1.5;
+}
+
+.botao-voltar-mecanicos {
+  min-height: 44px;
+  padding: 11px 18px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  color: #344054;
+  background-color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botao-voltar-mecanicos:hover {
+  border-color: #98a2b3;
+  background-color: #f9fafb;
+}
+
+/* Área da lista */
+
+.area-lista-mecanicos {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+  padding: 24px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
+}
+
+.cabecalho-lista-mecanicos {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.cabecalho-lista-mecanicos h2 {
+  margin: 0 0 5px;
+  color: #101828;
+  font-size: 20px;
+}
+
+.cabecalho-lista-mecanicos p {
+  margin: 0;
+  color: #667085;
+  font-size: 14px;
+}
+
+.cabecalho-lista-mecanicos > span {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #344054;
+  background-color: #f2f4f7;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tabela-mecanicos {
+  overflow: hidden;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+}
+
+.linha-cabecalho-mecanicos,
+.linha-mecanico {
+  display: grid;
+  grid-template-columns:
+    minmax(130px, 0.6fr)
+    minmax(220px, 1.6fr)
+    minmax(160px, 0.8fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.linha-cabecalho-mecanicos {
+  padding: 13px 18px;
+  color: #475467;
+  background-color: #f9fafb;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.linha-mecanico {
+  min-height: 66px;
+  padding: 14px 18px;
+  border-top: 1px solid #eaecf0;
+  background-color: #ffffff;
+}
+
+.linha-mecanico:hover {
+  background-color: #fcfcfd;
+}
+
+.dado-mecanico {
+  min-width: 0;
+  color: #344054;
+  overflow-wrap: anywhere;
+}
+
+.dado-mecanico strong {
+  color: #101828;
+}
+
+.rotulo-mobile {
+  display: none;
+}
+
+/* Perfis */
+
+.etiqueta-perfil {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.perfil-administrador {
+  color: #6941c6;
+  background-color: #f4f3ff;
+}
+
+.perfil-mecanico {
+  color: #067647;
+  background-color: #ecfdf3;
+}
+
+/* Estado vazio e erro */
+
+.lista-vazia-mecanicos,
+.mensagem-erro-mecanicos {
+  width: min(1000px, 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.lista-vazia-mecanicos {
+  padding: 48px 24px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.08);
+}
+
+.lista-vazia-mecanicos h2 {
+  margin: 0 0 8px;
+}
+
+.lista-vazia-mecanicos p {
+  margin: 0;
+  color: #667085;
+}
+
+.mensagem-erro-mecanicos {
+  padding: 14px 16px;
+  border: 1px solid #fecdca;
+  border-radius: 8px;
+  color: #b42318;
+  background-color: #fef3f2;
+  text-align: center;
+}
+
+/* Responsividade */
+
+@media (max-width: 650px) {
+  .pagina-mecanicos {
+    padding: 24px 12px;
+  }
+
+  .cabecalho-pagina-mecanicos {
+    flex-direction: column;
+  }
+
+  .botao-voltar-mecanicos {
+    width: 100%;
+  }
+
+  .area-lista-mecanicos {
+    padding: 16px;
+  }
+
+  .cabecalho-lista-mecanicos {
+    flex-direction: column;
+  }
+
+  .linha-cabecalho-mecanicos {
+    display: none;
+  }
+
+.tabela-mecanicos {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+}
+
+.linha-cabecalho-mecanicos {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  column-gap: 24px;
+  align-items: center;
+  padding: 14px 18px;
+  color: #475467;
+  background-color: #f9fafb;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.corpo-tabela-mecanicos {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.linha-mecanico {
+  width: 100%;
+  display: grid !important;
+  grid-template-columns: 160px minmax(250px, 1fr) 180px;
+  column-gap: 24px;
+  align-items: center;
+  min-height: 70px;
+  padding: 14px 18px;
+  border-top: 1px solid #eaecf0;
+  background-color: #ffffff;
+}
+
+.linha-mecanico:hover {
+  background-color: #f9fafb;
+}
+
+.dado-mecanico {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  color: #344054;
+  overflow-wrap: anywhere;
+}
+
+.dado-mecanico strong {
+  color: #101828;
+  font-size: 14px;
+}
+
+.rotulo-mobile {
+  display: none;
+}
+}
