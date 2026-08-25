@@ -7,13 +7,14 @@ import br.com.matheus.manutencao.entity.Maquina;
 import br.com.matheus.manutencao.entity.Mecanico;
 import br.com.matheus.manutencao.entity.Setor;
 import br.com.matheus.manutencao.enums.TipoChamado;
+import br.com.matheus.manutencao.exception.AcessoNegadoException;
 import br.com.matheus.manutencao.repository.ChamadoRepository;
 import br.com.matheus.manutencao.repository.MaquinaRepository;
 import br.com.matheus.manutencao.repository.MecanicoRepository;
 import br.com.matheus.manutencao.repository.SetorRepository;
 import br.com.matheus.manutencao.specification.ChamadoSpecification;
 import org.springframework.stereotype.Service;
-import br.com.matheus.manutencao.specification.ChamadoSpecification;
+import br.com.matheus.manutencao.enums.PerfilUsuario;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -97,13 +98,6 @@ public class ChamadoService {
         return chamadoRepository.save(chamado);
     }
 
-    public List<ChamadoResponseDTO> listarChamados() {
-        return chamadoRepository.findAll()
-                .stream()
-                .map(this::converterParaResponseDTO)
-                .toList();
-    }
-
     public ChamadoResponseDTO buscarChamadoPorId(Long id) {
         Chamado chamado = chamadoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Chamado não encontrado!"));
@@ -137,10 +131,6 @@ public class ChamadoService {
         return dto;
     }
 
-    public ChamadoResponseDTO buscarChamado (Chamado chamado) {
-        return converterParaResponseDTO(chamado);
-    }
-
     public List<ChamadoResponseDTO> listarComFiltros(
             TipoChamado tipo,
             Long setorId,
@@ -162,5 +152,164 @@ public class ChamadoService {
                 .stream()
                 .map(this::converterParaResponseDTO)
                 .toList();
+    }
+
+    private void validarPermissaoDeExclusao(
+            Mecanico usuarioLogado
+    ) {
+        if (usuarioLogado.getPerfil() != PerfilUsuario.ADMIN) {
+            throw new RuntimeException(
+                    "Somente administradores podem excluir chamados."
+            );
+        }
+    }
+
+    public void excluirChamado(
+            Long chamadoId,
+            Integer matriculaUsuario
+    ) {
+        Chamado chamado = chamadoRepository.findById(chamadoId)
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Chamado não encontrado."
+                        )
+                );
+
+        Mecanico usuarioLogado = mecanicoRepository
+                .findByMatricula(matriculaUsuario)
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Usuário não encontrado."
+                        )
+                );
+
+        validarPermissaoDeExclusao(usuarioLogado);
+
+        chamadoRepository.delete(chamado);
+    }
+
+    public ChamadoResponseDTO editarChamado(
+            Long chamadoId,
+            Integer matriculaUsuario,
+            ChamadoRequestDTO dto
+    ) {
+        Chamado chamado = chamadoRepository.findById(chamadoId)
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Chamado não encontrado."
+                        )
+                );
+
+        Mecanico usuarioLogado = mecanicoRepository
+                .findByMatricula(matriculaUsuario)
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Usuário não encontrado."
+                        )
+                );
+
+        validarPermissaoDeEdicao(chamado, usuarioLogado);
+
+        Setor setor = setorRepository
+                .findById(dto.getSetorId())
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Setor não encontrado."
+                        )
+                );
+
+        Mecanico mecanico = mecanicoRepository
+                .findByMatricula(dto.getMecanicoMatricula())
+                .orElseThrow(
+                        () -> new RuntimeException(
+                                "Mecânico não encontrado."
+                        )
+                );
+
+        chamado.setTipo(dto.getTipo());
+        chamado.setSetor(setor);
+        chamado.setMecanico(mecanico);
+        chamado.setDefeito(dto.getDefeito());
+        chamado.setSolucao(dto.getSolucao());
+        chamado.setData(dto.getData());
+
+        if (dto.getTipo() == TipoChamado.MAQUINA) {
+            Maquina maquina;
+
+            if (dto.getNp() != null) {
+                maquina = maquinaRepository
+                        .findByNp(dto.getNp())
+                        .orElseGet(() -> {
+                            if (
+                                    dto.getNome() == null ||
+                                            dto.getNome().isBlank()
+                            ) {
+                                throw new RuntimeException(
+                                        "Nome da máquina é obrigatório quando o NP não está cadastrado."
+                                );
+                            }
+
+                            Maquina novaMaquina = new Maquina();
+                            novaMaquina.setNp(dto.getNp());
+                            novaMaquina.setNome(dto.getNome());
+
+                            return maquinaRepository.save(
+                                    novaMaquina
+                            );
+                        });
+            } else {
+                if (
+                        dto.getNome() == null ||
+                                dto.getNome().isBlank()
+                ) {
+                    throw new RuntimeException(
+                            "Nome da máquina é obrigatório quando a máquina não possui NP."
+                    );
+                }
+
+                Maquina novaMaquina = new Maquina();
+                novaMaquina.setNp(null);
+                novaMaquina.setNome(dto.getNome());
+
+                maquina = maquinaRepository.save(
+                        novaMaquina
+                );
+            }
+
+            chamado.setMaquina(maquina);
+        }
+
+        if (dto.getTipo() == TipoChamado.PREDIAL) {
+            chamado.setMaquina(null);
+        }
+
+        Chamado chamadoAtualizado =
+                chamadoRepository.save(chamado);
+
+        return converterParaResponseDTO(
+                chamadoAtualizado
+        );
+    }
+
+    private void validarPermissaoDeEdicao(
+            Chamado chamado,
+            Mecanico usuarioLogado
+    ) {
+        boolean administrador =
+                usuarioLogado.getPerfil()
+                        == PerfilUsuario.ADMIN;
+
+        boolean mecanicoRegistrado =
+                chamado.getMecanico()
+                        .getMatricula()
+                        .equals(
+                                usuarioLogado.getMatricula()
+                        );
+
+        if (!administrador && !mecanicoRegistrado) {
+            throw new AcessoNegadoException(
+                    "Você não possui permissão para editar este chamado."
+            );
+        }
     }
 }

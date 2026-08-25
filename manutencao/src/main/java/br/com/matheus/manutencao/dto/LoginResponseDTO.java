@@ -1,5 +1,6 @@
 package br.com.matheus.manutencao.dto;
 
+import br.com.matheus.manutencao.enums.PerfilUsuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,10 @@ public class LoginResponseDTO {
 
     private Long id;
 
-    private Long matricula;
+    private Integer matricula;
 
     private String nome;
+
+    private PerfilUsuario perfil;
+
 }

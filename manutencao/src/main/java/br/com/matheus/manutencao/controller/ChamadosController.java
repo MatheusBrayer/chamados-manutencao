@@ -4,6 +4,7 @@ import br.com.matheus.manutencao.dto.ChamadoRequestDTO;
 import br.com.matheus.manutencao.dto.ChamadoResponseDTO;
 import br.com.matheus.manutencao.entity.Chamado;
 import br.com.matheus.manutencao.enums.TipoChamado;
+import br.com.matheus.manutencao.exception.AcessoNegadoException;
 import br.com.matheus.manutencao.repository.ChamadoRepository;
 import br.com.matheus.manutencao.service.ChamadoService;
 import org.springframework.http.ResponseEntity;
@@ -76,18 +77,97 @@ public class ChamadosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletarChamado(@PathVariable Long id) {
+    public ResponseEntity<?> excluirChamado(
+            @PathVariable Long id,
+            @RequestHeader("X-Mecanico-Matricula")
+            Integer matriculaUsuario
+    ) {
         try {
-            if (!chamadoRepository.existsById(id)) {
-                return ResponseEntity.status(404).body("Chamado não encontrado!");
+            chamadoService.excluirChamado(
+                    id,
+                    matriculaUsuario
+            );
+
+            return ResponseEntity.ok(
+                    "Chamado excluído com sucesso!"
+            );
+
+        } catch (RuntimeException erro) {
+            String mensagem = erro.getMessage();
+
+            if (
+                    mensagem.equals(
+                            "Chamado não encontrado."
+                    )
+            ) {
+                return ResponseEntity
+                        .status(404)
+                        .body(mensagem);
             }
 
-            chamadoRepository.deleteById(id);
+            if (
+                    mensagem.equals(
+                            "Somente administradores podem excluir chamados."
+                    )
+            ) {
+                return ResponseEntity
+                        .status(403)
+                        .body(mensagem);
+            }
 
-            return ResponseEntity.status(201).body("Chamado deletado com sucesso!");
+            return ResponseEntity
+                    .status(400)
+                    .body(mensagem);
 
-        } catch (Exception error) {
-            return ResponseEntity.status(500).body("Erro ao deletar chamado: " + error.getMessage());
+        } catch (Exception erro) {
+            return ResponseEntity
+                    .status(500)
+                    .body("Erro ao excluir chamado.");
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> editarChamado(
+            @PathVariable Long id,
+            @RequestHeader("X-Mecanico-Matricula")
+            Integer matriculaUsuario,
+            @RequestBody ChamadoRequestDTO dto
+    ) {
+        try {
+            ChamadoResponseDTO chamadoAtualizado =
+                    chamadoService.editarChamado(
+                            id,
+                            matriculaUsuario,
+                            dto
+                    );
+
+            return ResponseEntity.ok(
+                    chamadoAtualizado
+            );
+
+        } catch (AcessoNegadoException erro) {
+            return ResponseEntity
+                    .status(403)
+                    .body(erro.getMessage());
+
+        } catch (RuntimeException erro) {
+            if (
+                    "Chamado não encontrado."
+                            .equals(erro.getMessage())
+            ) {
+                return ResponseEntity
+                        .status(404)
+                        .body(erro.getMessage());
+            }
+
+            return ResponseEntity
+                    .status(400)
+                    .body(erro.getMessage());
+
+        } catch (Exception erro) {
+            return ResponseEntity
+                    .status(500)
+                    .body("Erro ao editar chamado.");
         }
     }
 }

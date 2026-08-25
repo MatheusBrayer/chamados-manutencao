@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LoginRequestDTO {
 
-    private Long matricula;
+    private Integer matricula;
 
     private String nome;
 }

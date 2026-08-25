@@ -1,5 +1,6 @@
 package br.com.matheus.manutencao.entity;
 
+import br.com.matheus.manutencao.enums.PerfilUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,9 +19,25 @@ public class Mecanico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "matricula", nullable = false, unique = true)
-    private Long matricula;
+    @Column(
+            name = "matricula",
+            nullable = false,
+            unique = true
+    )
+    private Integer matricula;
 
-    @Column(name = "nome", nullable = false, length = 50)
+    @Column(
+            name = "nome",
+            nullable = false,
+            length = 50
+    )
     private String nome;
+
+    @Enumerated(EnumType.STRING)
+    @Column(
+            name = "perfil",
+            nullable = false,
+            length = 20
+    )
+    private PerfilUsuario perfil = PerfilUsuario.MECANICO;
 }
