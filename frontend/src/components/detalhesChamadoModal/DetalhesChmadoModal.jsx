@@ -2,7 +2,19 @@ import { useEffect } from "react";
 
 import "./DetalhesChamadoModal.css";
 
-function DetalhesChamadoModal({ chamado, aoFechar }) {
+function DetalhesChamadoModal({ chamado, aoFechar, aoEditar, aoExcluir }) {
+  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  const usuarioAdministrador = usuarioLogado?.perfil === "ADMIN";
+
+  const mecanicoDoChamado =
+    Number(usuarioLogado?.matricula) === Number(chamado.mecanicoMatricula);
+
+  const podeAlterar = usuarioAdministrador || mecanicoDoChamado;
+
+  const podeEditar = podeAlterar;
+  const podeExcluir = podeAlterar;
+
   useEffect(() => {
     function fecharComEscape(evento) {
       if (evento.key === "Escape") {
@@ -11,6 +23,7 @@ function DetalhesChamadoModal({ chamado, aoFechar }) {
     }
 
     document.addEventListener("keydown", fecharComEscape);
+
     document.body.style.overflow = "hidden";
 
     return () => {
@@ -78,13 +91,11 @@ function DetalhesChamadoModal({ chamado, aoFechar }) {
             <>
               <div className="dado-chamado">
                 <span>NP</span>
-
                 <strong>{chamado.np || "Sem NP"}</strong>
               </div>
 
               <div className="dado-chamado">
                 <span>Máquina</span>
-
                 <strong>{chamado.maquina || "Não informada"}</strong>
               </div>
             </>
@@ -102,7 +113,6 @@ function DetalhesChamadoModal({ chamado, aoFechar }) {
 
           <div className="dado-chamado">
             <span>Data do serviço</span>
-
             <strong>{formatarData(chamado.data)}</strong>
           </div>
         </section>
@@ -110,7 +120,6 @@ function DetalhesChamadoModal({ chamado, aoFechar }) {
         <section className="textos-chamado">
           <div>
             <h3>Defeito ou problema encontrado</h3>
-
             <p>{chamado.defeito}</p>
           </div>
 
@@ -121,13 +130,37 @@ function DetalhesChamadoModal({ chamado, aoFechar }) {
         </section>
 
         <footer className="rodape-modal-chamado">
-          <button
-            type="button"
-            className="botao-concluir-modal"
-            onClick={aoFechar}
-          >
-            Fechar
-          </button>
+          <div className="acoes-principais-modal">
+            {podeExcluir && (
+              <button
+                type="button"
+                className="botao-excluir-chamado"
+                onClick={() => aoExcluir(chamado)}
+              >
+                Excluir
+              </button>
+            )}
+          </div>
+
+          <div className="acoes-secundarias-modal">
+            <button
+              type="button"
+              className="botao-fechar-detalhes"
+              onClick={aoFechar}
+            >
+              Fechar
+            </button>
+
+            {podeEditar && (
+              <button
+                type="button"
+                className="botao-editar-chamado"
+                onClick={() => aoEditar(chamado)}
+              >
+                Editar
+              </button>
+            )}
+          </div>
         </footer>
       </article>
     </div>

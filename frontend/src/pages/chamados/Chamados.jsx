@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
+import EditarChamadoModal from "../../components/editarChamadoModal/EditarChamadoModal";
 import DetalhesChamadoModal from "../../components/detalhesChamadoModal/DetalhesChmadoModal";
 import FiltrosChamados from "../../components/filtrosChamados/FiltrosChamados";
 
-import { buscarChamados } from "../../service/ChamadoService";
+import { buscarChamados, excluirChamado } from "../../service/ChamadoService";
 import { buscarIndicadores } from "../../service/IndicadoresService";
 
 import "./Chamados.css";
@@ -12,9 +13,10 @@ import "./Chamados.css";
 function Chamados() {
   const navegar = useNavigate();
 
+  const [chamadoEmEdicao, definirChamadoEmEdicao] = useState(null);
   const [chamados, definirChamados] = useState([]);
   const [indicadores, definirIndicadores] = useState(null);
-
+  const [filtrosAplicados, definirFiltrosAplicados] = useState({});
   const [chamadoSelecionado, definirChamadoSelecionado] = useState(null);
 
   const [carregamentoInicial, definirCarregamentoInicial] = useState(true);
@@ -64,6 +66,8 @@ function Chamados() {
   }, []);
 
   async function aplicarFiltros(novosFiltros) {
+    definirFiltrosAplicados(novosFiltros);
+
     try {
       definirCarregando(true);
       definirErro("");
@@ -93,6 +97,49 @@ function Chamados() {
 
   function fecharDetalhes() {
     definirChamadoSelecionado(null);
+  }
+
+  function iniciarEdicao(chamado) {
+    definirChamadoSelecionado(null);
+    definirChamadoEmEdicao(chamado);
+  }
+
+  function fecharEdicao() {
+    definirChamadoEmEdicao(null);
+  }
+
+  async function concluirEdicao() {
+    definirChamadoEmEdicao(null);
+    await aplicarFiltros(filtrosAplicados);
+  }
+
+  async function solicitarExclusao(chamado) {
+    const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+    const confirmouExclusao = window.confirm(
+      `Deseja realmente excluir o chamado #${chamado.id}?\n\nEsta ação não poderá ser desfeita.`,
+    );
+
+    if (!confirmouExclusao) {
+      return;
+    }
+
+    try {
+      definirCarregando(true);
+      definirErro("");
+
+      await excluirChamado(chamado.id, usuarioLogado.matricula);
+
+      definirChamadoSelecionado(null);
+
+      await aplicarFiltros(filtrosAplicados);
+    } catch (erroRequisicao) {
+      definirErro(
+        erroRequisicao.message || "Não foi possível excluir o chamado.",
+      );
+    } finally {
+      definirCarregando(false);
+    }
   }
 
   function formatarData(data) {
@@ -295,6 +342,16 @@ function Chamados() {
         <DetalhesChamadoModal
           chamado={chamadoSelecionado}
           aoFechar={fecharDetalhes}
+          aoEditar={iniciarEdicao}
+          aoExcluir={solicitarExclusao}
+        />
+      )}
+
+      {chamadoEmEdicao && (
+        <EditarChamadoModal
+          chamado={chamadoEmEdicao}
+          aoFechar={fecharEdicao}
+          aoConcluir={concluirEdicao}
         />
       )}
     </main>

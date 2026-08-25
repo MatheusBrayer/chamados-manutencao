@@ -20,9 +20,11 @@ public class ChamadoResponseDTO {
     private String maquina;
     private Long setorId;
     private String setor;
+
+    private Integer mecanicoMatricula;
     private String mecanico;
+
     private String defeito;
     private String solucao;
     private LocalDate data;
-
 }

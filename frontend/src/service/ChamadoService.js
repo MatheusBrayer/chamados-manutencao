@@ -47,11 +47,11 @@ export async function buscarChamados(filtros = {}) {
 
   const consulta = parametros.toString();
 
-  const url = consulta
+  const endereco = consulta
     ? `${URL_API}/chamados?${consulta}`
     : `${URL_API}/chamados`;
 
-  const resposta = await fetch(url);
+  const resposta = await fetch(endereco);
 
   if (!resposta.ok) {
     const mensagemErro = await resposta.text();
@@ -60,4 +60,40 @@ export async function buscarChamados(filtros = {}) {
   }
 
   return resposta.json();
+}
+
+export async function editarChamado(chamadoId, matriculaUsuario, dadosChamado) {
+  const resposta = await fetch(`${URL_API}/chamados/${chamadoId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Mecanico-Matricula": String(matriculaUsuario),
+    },
+    body: JSON.stringify(dadosChamado),
+  });
+
+  if (!resposta.ok) {
+    const mensagemErro = await resposta.text();
+
+    throw new Error(mensagemErro || "Não foi possível editar o chamado.");
+  }
+
+  return resposta.json();
+}
+
+export async function excluirChamado(chamadoId, matriculaUsuario) {
+  const resposta = await fetch(`${URL_API}/chamados/${chamadoId}`, {
+    method: "DELETE",
+    headers: {
+      "X-Mecanico-Matricula": String(matriculaUsuario),
+    },
+  });
+
+  if (!resposta.ok) {
+    const mensagemErro = await resposta.text();
+
+    throw new Error(mensagemErro || "Não foi possível excluir o chamado.");
+  }
+
+  return resposta.text();
 }

@@ -125,7 +125,13 @@ public class ChamadoService {
         }
 
         if (chamado.getMecanico() != null) {
-            dto.setMecanico(chamado.getMecanico().getNome());
+            dto.setMecanicoMatricula(
+                    chamado.getMecanico().getMatricula()
+            );
+
+            dto.setMecanico(
+                    chamado.getMecanico().getNome()
+            );
         }
 
         return dto;
@@ -154,12 +160,21 @@ public class ChamadoService {
                 .toList();
     }
 
-    private void validarPermissaoDeExclusao(
+    private void validarPermissaoDeAlteracao(
+            Chamado chamado,
             Mecanico usuarioLogado
     ) {
-        if (usuarioLogado.getPerfil() != PerfilUsuario.ADMIN) {
-            throw new RuntimeException(
-                    "Somente administradores podem excluir chamados."
+        boolean administrador =
+                usuarioLogado.getPerfil() == PerfilUsuario.ADMIN;
+
+        boolean mecanicoDoChamado =
+                chamado.getMecanico()
+                        .getMatricula()
+                        .equals(usuarioLogado.getMatricula());
+
+        if (!administrador && !mecanicoDoChamado) {
+            throw new AcessoNegadoException(
+                    "Você não possui permissão para alterar este chamado."
             );
         }
     }
@@ -168,7 +183,8 @@ public class ChamadoService {
             Long chamadoId,
             Integer matriculaUsuario
     ) {
-        Chamado chamado = chamadoRepository.findById(chamadoId)
+        Chamado chamado = chamadoRepository
+                .findById(chamadoId)
                 .orElseThrow(
                         () -> new RuntimeException(
                                 "Chamado não encontrado."
@@ -183,7 +199,10 @@ public class ChamadoService {
                         )
                 );
 
-        validarPermissaoDeExclusao(usuarioLogado);
+        validarPermissaoDeAlteracao(
+                chamado,
+                usuarioLogado
+        );
 
         chamadoRepository.delete(chamado);
     }
@@ -208,7 +227,10 @@ public class ChamadoService {
                         )
                 );
 
-        validarPermissaoDeEdicao(chamado, usuarioLogado);
+        validarPermissaoDeAlteracao(
+                chamado,
+                usuarioLogado
+        );
 
         Setor setor = setorRepository
                 .findById(dto.getSetorId())
