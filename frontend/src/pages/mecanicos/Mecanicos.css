@@ -51,8 +51,9 @@
 }
 
 .botao-voltar-mecanicos:hover {
-  border-color: #98a2b3;
-  background-color: #f9fafb;
+  border-color: var(--cor-primaria);
+  background-color: var(--cor-azul);
+  color: var(--cor-primaria);
 }
 
 /* Área da lista */
@@ -90,10 +91,10 @@
 
 .cabecalho-lista-mecanicos > span {
   flex-shrink: 0;
-  padding: 6px 10px;
-  border-radius: 999px;
-  color: #344054;
-  background-color: #f2f4f7;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: var(--cor-fundo);
+  background-color: var(--cor-azul);
   font-size: 13px;
   font-weight: 700;
 }

@@ -62,7 +62,7 @@
 .botao-novo-registro {
   border: none;
   color: #ffffff;
-  background-color: #155eef;
+  background-color: var(--cor-azul);
 }
 
 .botao-novo-registro:hover {
@@ -132,15 +132,15 @@
 }
 
 .cartao-total-chamados {
-  background-color: #155eef;
+  background-color: var(--cor-azul);
 }
 
 .cartao-maquina-chamados {
-  background-color: #0f7a4b;
+  background-color: var(--cor-verde);
 }
 
 .cartao-predial-chamados {
-  background-color: #d97706;
+  background-color: var(--cor-amarelo);
 }
 
 /* Área principal da lista */
@@ -246,18 +246,18 @@
 }
 
 .tipo-maquina {
-  color: #067647;
+  color: var(--cor-verde);
   background-color: #ecfdf3;
 }
 
 .tipo-predial {
-  color: #b54708;
+  color: var(--cor-amarelo);
   background-color: #fffaeb;
 }
 
 .acao-detalhes {
   flex-shrink: 0;
-  color: #155eef;
+  color: var(--cor-azul);
   font-size: 14px;
   font-weight: 700;
 }
@@ -339,7 +339,7 @@
   border: none;
   border-radius: 8px;
   color: #ffffff;
-  background-color: #155eef;
+  background-color: var(--cor-azul);
   font-weight: 700;
   cursor: pointer;
 }

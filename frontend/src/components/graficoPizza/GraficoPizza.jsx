@@ -10,8 +10,8 @@ import {
 import "./GraficoPizza.css";
 
 const CORES = {
-  maquina: "#12824c",
-  predial: "#e67b00",
+  maquina: "var(--cor-verde)",
+  predial: "var(--cor-amarelo)",
 };
 
 function GraficoPizza({ chamadosMaquina = 0, chamadosPredial = 0 }) {

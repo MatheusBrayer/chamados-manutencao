@@ -170,15 +170,15 @@
 }
 
 .cartao-total {
-  background-color: #155eef;
+  background-color: var(--cor-azul); 
 }
 
 .cartao-maquina {
-  background-color: #0f7a4b;
+  background-color: var(--cor-verde);
 }
 
 .cartao-predial {
-  background-color: #d97706;
+  background-color: var(--cor-amarelo);
 }
 
 .area-grafico {

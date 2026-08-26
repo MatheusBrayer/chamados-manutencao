@@ -76,7 +76,7 @@ function GraficosMensais({ dadosMensais }) {
                 type="monotone"
                 dataKey="chamadosMaquina"
                 name="Máquina"
-                stroke="#0f7a4b"
+                stroke="var(--cor-verde)"
                 strokeWidth={3}
                 activeDot={{ r: 6 }}
               />
@@ -85,7 +85,7 @@ function GraficosMensais({ dadosMensais }) {
                 type="monotone"
                 dataKey="chamadosPredial"
                 name="Predial"
-                stroke="#d97706"
+                stroke="var(--cor-amarelo)"
                 strokeWidth={3}
                 activeDot={{ r: 6 }}
               />
@@ -136,7 +136,7 @@ function GraficosMensais({ dadosMensais }) {
                 type="monotone"
                 dataKey="totalChamados"
                 name="Total"
-                stroke="#155eef"
+                stroke="var(--cor-azul)"
                 strokeWidth={3}
                 activeDot={{ r: 6 }}
               />

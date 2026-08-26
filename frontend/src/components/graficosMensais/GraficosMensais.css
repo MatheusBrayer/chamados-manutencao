@@ -19,7 +19,7 @@
 
 .cabecalho-grafico-mensal h2 {
   margin: 0 0 6px;
-  color: #1d2939;
+  color: var(--cor-texto);
   font-size: 20px;
 }
 

@@ -2,7 +2,7 @@
   min-height: 100vh;
   padding: 40px 20px;
   color: #1d2939;
-  background-color: #f2f4f7;
+  background-color: var(--cor-azul);
 }
 
 .cartao-novo-registro {
@@ -251,14 +251,14 @@
 
 .botao-voltar:hover,
 .botao-cancelar:hover {
-  border-color: #98a2b3;
+  border-color: var(--cor-azul);
   background-color: #f9fafb;
 }
 
 .botao-salvar {
   border: none;
   color: #ffffff;
-  background-color: #155eef;
+  background-color: var(--cor-azul);
 }
 
 .botao-salvar:hover {

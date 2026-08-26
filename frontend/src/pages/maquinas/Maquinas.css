@@ -2,7 +2,7 @@
   min-height: 100vh;
   padding: 40px 20px;
   color: #1d2939;
-  background-color: #f2f4f7;
+  background-color: var(--cor-fundo);
 }
 
 .carregamento-maquinas {
@@ -50,11 +50,13 @@
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .botao-voltar-maquinas:hover {
-  border-color: #98a2b3;
-  background-color: #f9fafb;
+  border-color: var(--cor-primaria);
+  background-color: var(--cor-azul);
+  color: var(--cor-primaria);
 }
 
 /* Área principal */
@@ -92,12 +94,13 @@
 
 .cabecalho-lista-maquinas > span {
   flex-shrink: 0;
-  padding: 6px 10px;
-  border-radius: 999px;
-  color: #344054;
-  background-color: #f2f4f7;
-  font-size: 13px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: var(--cor-fundo);
+  background-color: var(--cor-azul);
+  font-size: 14px;
   font-weight: 700;
+  cursor:default;
 }
 
 /* Pesquisa */
@@ -145,14 +148,16 @@
   padding: 10px 18px;
   border: 1px solid #d0d5dd;
   border-radius: 8px;
-  color: #344054;
-  background-color: #ffffff;
+  color: var(--cor-azul);
+  background-color: var(--cor-primaria);
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .botao-limpar-pesquisa:hover {
-  background-color: #f9fafb;
+  color: var(--cor-primaria);
+  background-color: var(--cor-azul);
 }
 
 /* Tabela */

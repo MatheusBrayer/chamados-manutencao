@@ -32,7 +32,7 @@
 .indicador-filtros-ativos {
   padding: 6px 10px;
   border-radius: 999px;
-  color: #175cd3;
+  color: var(--cor-azul);
   background-color: #eff8ff;
   font-size: 12px;
   font-weight: 700;
@@ -71,7 +71,7 @@
 
 .campo-filtro input:focus,
 .campo-filtro select:focus {
-  border-color: #155eef;
+  border-color: var(--cor-azul);
   box-shadow: 0 0 0 3px rgba(21, 94, 239, 0.12);
 }
 
@@ -107,11 +107,11 @@
 .botao-aplicar-filtros {
   border: none;
   color: #ffffff;
-  background-color: #155eef;
+  background-color: var(--cor-azul);
 }
 
 .botao-aplicar-filtros:hover {
-  background-color: #124ec4;
+  background-color: var(--cor-azul);
 }
 
 .botao-limpar-filtros:disabled,
