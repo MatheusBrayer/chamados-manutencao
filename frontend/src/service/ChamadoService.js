@@ -1,4 +1,4 @@
-const URL_API = "http://localhost:8080/api";
+import { URL_API } from "../config/api";
 
 export async function cadastrarChamado(dadosChamado) {
   const resposta = await fetch(`${URL_API}/chamados`, {

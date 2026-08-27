@@ -1,4 +1,4 @@
-const URL_API = "http://localhost:8080/api";
+import { URL_API } from "../config/api";
 
 function montarParametros(filtros = {}) {
   const parametros = new URLSearchParams();
