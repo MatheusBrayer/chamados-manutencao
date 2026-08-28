@@ -7,8 +7,13 @@ import br.com.matheus.manutencao.enums.TipoChamado;
 import br.com.matheus.manutencao.exception.AcessoNegadoException;
 import br.com.matheus.manutencao.repository.ChamadoRepository;
 import br.com.matheus.manutencao.service.ChamadoService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,27 +33,73 @@ public class ChamadosController {
 
     @GetMapping
     public ResponseEntity<?> listarChamados(
-            @RequestParam(required = false) TipoChamado tipo,
-            @RequestParam(required = false) Long setorId,
-            @RequestParam(required = false) Long np,
-            @RequestParam(required = false) Integer mecanicoMatricula,
-            @RequestParam(required = false) LocalDate dataInicio,
-            @RequestParam(required = false) LocalDate dataFim
+            @RequestParam(required = false)
+            TipoChamado tipo,
+
+            @RequestParam(required = false)
+            Long setorId,
+
+            @RequestParam(required = false)
+            Long np,
+
+            @RequestParam(required = false)
+            Integer mecanicoMatricula,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(
+                    iso = DateTimeFormat.ISO.DATE
+            )
+            LocalDate dataInicio,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(
+                    iso = DateTimeFormat.ISO.DATE
+            )
+            LocalDate dataFim,
+
+            @RequestParam(defaultValue = "0")
+            int page,
+
+            @RequestParam(defaultValue = "10")
+            int size
     ) {
         try {
-            List<ChamadoResponseDTO> chamados = chamadoService.listarComFiltros(
-                    tipo,
-                    setorId,
-                    np,
-                    mecanicoMatricula,
-                    dataInicio,
-                    dataFim
+            int paginaSegura = Math.max(page, 0);
+
+            int tamanhoSeguro = Math.min(
+                    Math.max(size, 1),
+                    50
             );
+
+            Pageable pageable = PageRequest.of(
+                    paginaSegura,
+                    tamanhoSeguro,
+                    Sort.by(
+                            Sort.Order.desc("data"),
+                            Sort.Order.desc("id")
+                    )
+            );
+
+            Page<ChamadoResponseDTO> chamados =
+                    chamadoService.listarComFiltros(
+                            tipo,
+                            setorId,
+                            np,
+                            mecanicoMatricula,
+                            dataInicio,
+                            dataFim,
+                            pageable
+                    );
 
             return ResponseEntity.ok(chamados);
 
-        } catch (Exception error) {
-            return ResponseEntity.status(500).body(error.getMessage());
+        } catch (Exception erro) {
+            return ResponseEntity
+                    .status(500)
+                    .body(
+                            "Erro ao listar chamados: "
+                                    + erro.getMessage()
+                    );
         }
     }
 

@@ -15,6 +15,8 @@ import br.com.matheus.manutencao.repository.SetorRepository;
 import br.com.matheus.manutencao.specification.ChamadoSpecification;
 import org.springframework.stereotype.Service;
 import br.com.matheus.manutencao.enums.PerfilUsuario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -164,15 +166,17 @@ public class ChamadoService {
         return dto;
     }
 
-    public List<ChamadoResponseDTO> listarComFiltros(
+    public Page<ChamadoResponseDTO> listarComFiltros(
             TipoChamado tipo,
             Long setorId,
             Long np,
             Integer mecanicoMatricula,
             LocalDate dataInicio,
-            LocalDate dataFim
+            LocalDate dataFim,
+            Pageable pageable
     ) {
-        return chamadoRepository.findAll(
+        return chamadoRepository
+                .findAll(
                         ChamadoSpecification.filtrar(
                                 tipo,
                                 setorId,
@@ -180,11 +184,10 @@ public class ChamadoService {
                                 mecanicoMatricula,
                                 dataInicio,
                                 dataFim
-                        )
+                        ),
+                        pageable
                 )
-                .stream()
-                .map(this::converterParaResponseDTO)
-                .toList();
+                .map(this::converterParaResponseDTO);
     }
 
     private void validarPermissaoDeAlteracao(
