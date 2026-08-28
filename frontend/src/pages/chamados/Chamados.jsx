@@ -10,6 +10,8 @@ import { buscarIndicadores } from "../../service/IndicadoresService";
 
 import "./Chamados.css";
 
+const TAMANHO_PAGINA = 10;
+
 function Chamados() {
   const navegar = useNavigate();
 
@@ -24,13 +26,23 @@ function Chamados() {
   const [carregando, definirCarregando] = useState(false);
   const [erro, definirErro] = useState("");
 
+  const [paginaAtual, definirPaginaAtual] = useState(0);
+
+  const [ultimaPagina, definirUltimaPagina] = useState(true);
+
+  const [totalRegistros, definirTotalRegistros] = useState(0);
+
+  const [carregandoMais, definirCarregandoMais] = useState(false);
+
   useEffect(() => {
     let componenteAtivo = true;
 
     async function carregarDadosIniciais() {
       try {
-        const [dadosChamados, dadosIndicadores] = await Promise.all([
-          buscarChamados(),
+        definirErro("");
+
+        const [paginaChamados, dadosIndicadores] = await Promise.all([
+          buscarChamados({}, 0, TAMANHO_PAGINA),
           buscarIndicadores(),
         ]);
 
@@ -38,8 +50,12 @@ function Chamados() {
           return;
         }
 
-        definirChamados(dadosChamados);
+        definirChamados(paginaChamados.content);
         definirIndicadores(dadosIndicadores);
+
+        definirPaginaAtual(paginaChamados.number);
+        definirUltimaPagina(paginaChamados.last);
+        definirTotalRegistros(paginaChamados.totalElements);
       } catch (erroRequisicao) {
         if (!componenteAtivo) {
           return;
@@ -47,6 +63,10 @@ function Chamados() {
 
         definirChamados([]);
         definirIndicadores(null);
+
+        definirPaginaAtual(0);
+        definirUltimaPagina(true);
+        definirTotalRegistros(0);
 
         definirErro(
           erroRequisicao.message || "Não foi possível carregar os registros.",
@@ -168,6 +188,40 @@ function Chamados() {
     );
   }
 
+  async function carregarMaisChamados() {
+    if (carregandoMais || ultimaPagina) {
+      return;
+    }
+
+    const proximaPagina = paginaAtual + 1;
+
+    try {
+      definirCarregandoMais(true);
+      definirErro("");
+
+      const paginaChamados = await buscarChamados(
+        filtrosAplicados,
+        proximaPagina,
+        TAMANHO_PAGINA,
+      );
+
+      definirChamados((chamadosAtuais) => [
+        ...chamadosAtuais,
+        ...paginaChamados.content,
+      ]);
+
+      definirPaginaAtual(paginaChamados.number);
+      definirUltimaPagina(paginaChamados.last);
+      definirTotalRegistros(paginaChamados.totalElements);
+    } catch (erroRequisicao) {
+      definirErro(
+        erroRequisicao.message || "Não foi possível carregar mais chamados.",
+      );
+    } finally {
+      definirCarregandoMais(false);
+    }
+  }
+
   return (
     <main className="pagina-chamados">
       <header className="cabecalho-pagina-chamados">
@@ -252,7 +306,9 @@ function Chamados() {
               <p>Clique em um registro para visualizar todos os dados.</p>
             </div>
 
-            <span>{chamados.length} registro(s)</span>
+            <span>
+              {chamados.length} de {totalRegistros} exibido(s)
+            </span>
           </header>
 
           <div className="lista-chamados">
@@ -335,6 +391,22 @@ function Chamados() {
               </article>
             ))}
           </div>
+          {!ultimaPagina && (
+            <div className="area-carregar-mais">
+              <button
+                type="button"
+                className="botao-carregar-mais"
+                onClick={carregarMaisChamados}
+                disabled={carregandoMais}
+              >
+                {carregandoMais ? "Carregando..." : "Carregar mais 10"}
+              </button>
+
+              <span>
+                {chamados.length} de {totalRegistros} chamados
+              </span>
+            </div>
+          )}
         </section>
       )}
 

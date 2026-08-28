@@ -18,8 +18,11 @@ export async function cadastrarChamado(dadosChamado) {
   return resposta.json();
 }
 
-export async function buscarChamados(filtros = {}) {
+export async function buscarChamados(filtros = {}, pagina = 0, tamanho = 10) {
   const parametros = new URLSearchParams();
+
+  parametros.append("page", String(pagina));
+  parametros.append("size", String(tamanho));
 
   if (filtros.tipo) {
     parametros.append("tipo", filtros.tipo);
@@ -45,13 +48,7 @@ export async function buscarChamados(filtros = {}) {
     parametros.append("dataFim", filtros.dataFim);
   }
 
-  const consulta = parametros.toString();
-
-  const endereco = consulta
-    ? `${URL_API}/chamados?${consulta}`
-    : `${URL_API}/chamados`;
-
-  const resposta = await fetch(endereco);
+  const resposta = await fetch(`${URL_API}/chamados?${parametros.toString()}`);
 
   if (!resposta.ok) {
     const mensagemErro = await resposta.text();
