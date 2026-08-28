@@ -68,9 +68,19 @@ function FiltrosChamados({ aoAplicarFiltros, carregando }) {
   }
 
   function limparFiltros() {
-    definirFiltros(FILTROS_INICIAIS);
+    const filtrosLimpos = {
+      tipo: "",
+      setorId: "",
+      np: "",
+      mecanicoMatricula: "",
+      dataInicio: "",
+      dataFim: "",
+    };
+
+    definirFiltros(filtrosLimpos);
     definirErroListas("");
-    aoAplicarFiltros(FILTROS_INICIAIS);
+
+    aoAplicarFiltros(filtrosLimpos);
   }
 
   const possuiFiltros = Object.values(filtros).some((valor) => valor !== "");

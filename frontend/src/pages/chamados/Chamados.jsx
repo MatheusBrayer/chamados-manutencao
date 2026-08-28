@@ -86,22 +86,33 @@ function Chamados() {
   }, []);
 
   async function aplicarFiltros(novosFiltros) {
-    definirFiltrosAplicados(novosFiltros);
+    const filtrosAtualizados = {
+      ...novosFiltros,
+    };
+
+    definirFiltrosAplicados(filtrosAtualizados);
 
     try {
       definirCarregando(true);
       definirErro("");
 
-      const [dadosChamados, dadosIndicadores] = await Promise.all([
-        buscarChamados(novosFiltros),
-        buscarIndicadores(novosFiltros),
+      const [paginaChamados, dadosIndicadores] = await Promise.all([
+        buscarChamados(filtrosAtualizados, 0, TAMANHO_PAGINA),
+        buscarIndicadores(filtrosAtualizados),
       ]);
 
-      definirChamados(dadosChamados);
+      definirChamados(paginaChamados.content ?? []);
       definirIndicadores(dadosIndicadores);
+
+      definirPaginaAtual(paginaChamados.number ?? 0);
+      definirUltimaPagina(paginaChamados.last ?? true);
+      definirTotalRegistros(paginaChamados.totalElements ?? 0);
     } catch (erroRequisicao) {
       definirChamados([]);
       definirIndicadores(null);
+      definirPaginaAtual(0);
+      definirUltimaPagina(true);
+      definirTotalRegistros(0);
 
       definirErro(
         erroRequisicao.message || "Não foi possível aplicar os filtros.",
