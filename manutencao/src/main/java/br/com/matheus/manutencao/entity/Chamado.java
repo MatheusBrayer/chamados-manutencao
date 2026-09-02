@@ -25,15 +25,15 @@ public class Chamado {
     @Column(name = "tipo", nullable = false, length = 20)
     private TipoChamado tipo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "maquina_id")
     private Maquina maquina;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mecanico_id", nullable = false)
     private Mecanico mecanico;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "setor_id", nullable = false)
     private Setor setor;
 
