@@ -24,7 +24,7 @@ public class Maquina {
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "setor_id")
     private Setor setor;
 }
