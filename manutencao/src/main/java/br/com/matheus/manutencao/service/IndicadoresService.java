@@ -28,6 +28,9 @@ public class IndicadoresService {
             LocalDate dataInicio,
             LocalDate dataFim
     ) {
+
+        long inicio = System.currentTimeMillis();
+
         List<Chamado> chamados = chamadoRepository.findAll(
                 ChamadoSpecification.filtrar(
                         tipo,
@@ -39,6 +42,14 @@ public class IndicadoresService {
                 )
         );
 
+        long depoisDoBanco = System.currentTimeMillis();
+
+        System.out.println(
+                "INDICADORES - BANCO: "
+                        + (depoisDoBanco - inicio)
+                        + " ms"
+        );
+
         long totalChamados = chamados.size();
 
         long chamadosMaquina = chamados.stream()
@@ -48,6 +59,14 @@ public class IndicadoresService {
         long chamadosPredial = chamados.stream()
                 .filter(chamado -> chamado.getTipo() == TipoChamado.PREDIAL)
                 .count();
+
+        long fim = System.currentTimeMillis();
+
+        System.out.println(
+                "INDICADORES - TOTAL: "
+                        + (fim - inicio)
+                        + " ms"
+        );
 
         return new IndicadoresDTO(
                 totalChamados,
