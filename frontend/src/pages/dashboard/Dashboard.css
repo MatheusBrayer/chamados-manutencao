@@ -1,475 +1,221 @@
-.pagina-dashboard {
-  min-height: 100vh;
-  color: #1d2939;
-  background-color: #f2f4f7;
+/* ============================= */
+/* Filtros do dashboard          */
+/* ============================= */
+
+.filtros-dashboard {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid #eaecf0;
+  border-radius: 14px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 22px rgba(16, 24, 40, 0.06);
 }
 
-.cabecalho-dashboard {
+.campo-filtro-dashboard {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  padding: 20px 6%;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.campo-filtro-dashboard label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #344054;
+}
+
+.campo-filtro-dashboard select {
+  min-width: 170px;
+  padding: 10px 12px;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  color: #344054;
+  background-color: #ffffff;
+  font-size: 14px;
+}
+
+.campo-filtro-dashboard select:focus {
+  outline: 2px solid rgba(16, 185, 129, 0.25);
+  border-color: var(--cor-verde);
+}
+
+.acoes-filtros-dashboard {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.botao-filtrar-dashboard,
+.botao-relatorio-dashboard {
+  min-height: 42px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botao-filtrar-dashboard {
+  border: 1px solid var(--cor-azul);
   color: #ffffff;
   background-color: var(--cor-azul);
 }
 
-.cabecalho-dashboard h1 {
-  margin: 0 0 4px;
-  font-size: 24px;
+.botao-filtrar-dashboard:hover {
+  opacity: 0.9;
 }
 
-.cabecalho-dashboard p {
-  margin: 0;
-  color: #d1fae5;
-}
-
-.topo-cabecalho-dashboard {
-  min-width: 0;
-}
-
-.identificacao-dashboard {
-  min-width: 0;
-}
-
-.identificacao-dashboard h1 {
-  color: #ffffff;
-  line-height: 1.25;
-}
-
-.identificacao-dashboard p {
-  margin: 0 0 4px;
-  color: #ffffff;
-  line-height: 1.4;
-}
-
-.identificacao-dashboard span {
-  display: block;
-  color: #d1fae5;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.botao-menu-dashboard {
-  display: none;
-  min-height: 42px;
-  padding: 9px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
-  color: #ffffff;
-  background-color: transparent;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.botao-menu-dashboard:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-}
-
-.botao-sair-dashboard {
-  border: 1px solid rgba(255, 255, 255, 0.55) !important;
-}
-
-.navegacao-dashboard {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.navegacao-dashboard button,
-.menu-registros summary {
-  padding: 10px 14px;
-  border: none;
-  border-radius: 8px;
-  color: #ffffff;
-  background-color: transparent;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.navegacao-dashboard button:hover,
-.menu-registros summary:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-}
-
-.menu-registros {
-  position: relative;
-}
-
-.menu-registros summary {
-  list-style: none;
-}
-
-.opcoes-registros {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 10;
-  width: 170px;
-  padding: 8px;
-  border-radius: 10px;
-  background-color: #ffffff;
-  box-shadow: 0 12px 28px rgba(16, 24, 40, 0.2);
-}
-
-.opcoes-registros button {
-  width: 100%;
+.botao-relatorio-dashboard {
+  border: 1px solid #d0d5dd;
   color: #344054;
-  text-align: left;
+  background-color: #ffffff;
 }
 
-.opcoes-registros button:hover {
-  color: #075636;
-  background-color: #ecfdf3;
+.botao-relatorio-dashboard:hover {
+  background-color: #f9fafb;
 }
 
-.conteudo-dashboard {
-  width: min(1200px, calc(100% - 40px));
-  margin: 0 auto;
-  padding: 40px 0;
-}
+/* ============================= */
+/* Área dos mecânicos            */
+/* ============================= */
 
-.titulo-dashboard {
-  margin-bottom: 24px;
-}
-
-.titulo-dashboard h2 {
-  margin: 0 0 6px;
-}
-
-.titulo-dashboard p {
-  margin: 0;
-  color: #667085;
-}
-
-.grade-indicadores {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.cartao-indicador {
-  min-width: 0;
-  min-height: 150px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 24px;
-  border-radius: 14px;
-  color: #ffffff;
-  box-shadow: 0 8px 22px rgba(16, 24, 40, 0.12);
-}
-
-.cartao-indicador span {
-  font-weight: 700;
-}
-
-.cartao-indicador strong {
-  font-size: 42px;
-}
-
-.cartao-total {
-  background-color: var(--cor-azul); 
-}
-
-.cartao-maquina {
-  background-color: var(--cor-verde);
-}
-
-.cartao-predial {
-  background-color: var(--cor-amarelo);
-}
-
-.area-grafico {
-  margin-top: 32px;
+.area-mecanicos {
+  margin-top: 36px;
   padding: 24px;
   border-radius: 14px;
   background-color: #ffffff;
   box-shadow: 0 8px 22px rgba(16, 24, 40, 0.08);
 }
 
-.area-grafico h2 {
-  margin-top: 0;
+.cabecalho-mecanicos {
+  margin-bottom: 20px;
 }
 
-.cabecalho-grafico {
-  margin-bottom: 16px;
-}
-
-.cabecalho-grafico h2 {
+.cabecalho-mecanicos h2 {
   margin: 0 0 6px;
 }
 
-.cabecalho-grafico p {
+.cabecalho-mecanicos p {
   margin: 0;
   color: #667085;
 }
 
-.mensagem-dashboard {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
+.tabela-mecanicos-container {
+  width: 100%;
+  overflow-x: auto;
 }
 
-.area-evolucao-mensal {
-  margin-top: 36px;
+.tabela-mecanicos {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.cabecalho-evolucao {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
+.tabela-mecanicos th,
+.tabela-mecanicos td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eaecf0;
+  text-align: center;
 }
 
-.cabecalho-evolucao h2 {
-  margin: 0 0 6px;
+.tabela-mecanicos th:first-child,
+.tabela-mecanicos td:first-child {
+  text-align: left;
 }
 
-.cabecalho-evolucao p {
-  margin: 0;
-  color: #667085;
-}
-
-.campo-ano {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.campo-ano label {
+.tabela-mecanicos th {
+  color: #475467;
+  background-color: #f9fafb;
+  font-size: 14px;
   font-weight: 700;
 }
 
-.campo-ano select {
-  padding: 9px 12px;
-  border: 1px solid #d0d5dd;
-  border-radius: 8px;
+.tabela-mecanicos td {
   color: #344054;
-  background-color: #ffffff;
 }
 
-@media (max-width: 900px) {
-  .cabecalho-dashboard {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 18px;
-    padding: 20px 24px;
-  }
+.tabela-mecanicos tbody tr:hover {
+  background-color: #f9fafb;
+}
 
-  .navegacao-dashboard {
-    width: 100%;
+.tabela-mecanicos tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela-mecanicos td strong {
+  color: #1d2939;
+}
+
+.tabela-sem-dados {
+  padding: 30px;
+  text-align: center;
+  color: #667085;
+  background-color: #f9fafb;
+  border-radius: 10px;
+}
+
+.tabela-sem-dados p {
+  margin: 0;
+}
+
+/* ============================= */
+/* Responsividade dos filtros    */
+/* ============================= */
+
+@media (max-width: 900px) {
+  .filtros-dashboard {
+    align-items: stretch;
     flex-wrap: wrap;
   }
 
-  .navegacao-dashboard > button,
-  .menu-registros {
+  .campo-filtro-dashboard {
     flex: 1;
   }
 
-  .menu-registros summary {
+  .campo-filtro-dashboard select {
     width: 100%;
-    text-align: center;
   }
 
-  .grade-indicadores {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .acoes-filtros-dashboard {
+    width: 100%;
+    margin-left: 0;
   }
 
-  .conteudo-dashboard {
-    width: calc(100% - 32px);
+  .botao-filtrar-dashboard,
+  .botao-relatorio-dashboard {
+    flex: 1;
   }
 }
 
 @media (max-width: 600px) {
-  .cabecalho-dashboard {
-    width: 100%;
-    display: block;
-    padding: 18px 16px;
-    overflow: visible;
-  }
-
-  .topo-cabecalho-dashboard {
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+  .filtros-dashboard {
+    flex-direction: column;
     gap: 14px;
+    padding: 16px;
   }
 
-  .identificacao-dashboard {
-    min-width: 0;
-    flex: 1;
-  }
-
-  .identificacao-dashboard h1 {
-    max-width: 190px;
-    margin: 0 0 6px;
-    font-size: 22px;
-    line-height: 1.25;
-  }
-
-  .identificacao-dashboard p {
-    max-width: 200px;
-    margin: 0 0 4px;
-    font-size: 14px;
-  }
-
-  .identificacao-dashboard span {
-    max-width: 210px;
-    font-size: 12px;
-    line-height: 1.45;
-  }
-
-  .botao-menu-dashboard {
-    display: block;
-    flex-shrink: 0;
-  }
-
-  /* Esconde a navegação enquanto o menu está fechado */
-
-  .navegacao-dashboard {
-    display: none;
+  .campo-filtro-dashboard {
     width: 100%;
-    margin-top: 18px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  /* Mostra a navegação quando menuAberto for true */
-
-  .navegacao-dashboard.navegacao-aberta {
-    display: flex;
-    align-items: stretch;
+  .acoes-filtros-dashboard {
     flex-direction: column;
-    gap: 8px;
   }
 
-  .navegacao-dashboard > button,
-  .menu-registros,
-  .menu-registros summary {
+  .botao-filtrar-dashboard,
+  .botao-relatorio-dashboard {
     width: 100%;
   }
 
-  .navegacao-dashboard > button,
-  .menu-registros summary {
-    min-height: 46px;
-    padding: 12px 14px;
-    text-align: left;
-  }
-
-  .menu-registros {
-    position: static;
-  }
-
-  .opcoes-registros {
-    position: static;
-    width: 100%;
-    margin-top: 6px;
-    padding: 6px;
-    box-shadow: none;
-  }
-
-  .opcoes-registros button {
-    min-height: 43px;
-  }
-
-  .botao-sair-dashboard {
-    margin-top: 4px;
-    text-align: center !important;
-  }
-
-  /* Área de conteúdo */
-
-  .conteudo-dashboard {
-    width: calc(100% - 24px);
-    padding: 28px 0;
-    overflow-x: hidden;
-  }
-
-  .titulo-dashboard {
-    margin-bottom: 20px;
-  }
-
-  .titulo-dashboard h2 {
-    font-size: 23px;
-  }
-
-  /* Um card por linha */
-
-  .grade-indicadores {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .cartao-indicador {
-    width: 100%;
-    min-height: 125px;
-    padding: 20px;
-  }
-
-  .cartao-indicador strong {
-    font-size: 36px;
-  }
-
-  /* Gráfico de pizza */
-
-  .area-grafico {
-    width: 100%;
-    min-width: 0;
-    margin-top: 24px;
-    padding: 20px 12px;
-    overflow: hidden;
-  }
-
-  .cabecalho-grafico {
-    padding: 0 6px;
-  }
-
-  .grafico-pizza {
-    width: 100%;
-    min-width: 0;
-  }
-
-  /* Evolução mensal */
-
-  .area-evolucao-mensal {
+  .area-mecanicos {
     margin-top: 28px;
+    padding: 18px 12px;
   }
 
-  .cabecalho-evolucao {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .campo-ano {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .campo-ano select {
-    min-width: 130px;
-  }
-
-  .secao-graficos-mensais {
-    width: 100%;
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .cartao-grafico-mensal {
-    width: 100%;
-    min-width: 0;
-    padding: 18px 8px;
-    overflow: hidden;
-  }
-
-  .conteudo-grafico-mensal {
-    width: 100%;
-    min-width: 0;
+  .tabela-mecanicos th,
+  .tabela-mecanicos td {
+    padding: 12px 10px;
+    font-size: 13px;
+    white-space: nowrap;
   }
 }

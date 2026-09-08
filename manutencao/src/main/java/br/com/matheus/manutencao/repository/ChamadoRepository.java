@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.List;
+
 public interface ChamadoRepository
         extends JpaRepository<Chamado, Long>, JpaSpecificationExecutor<Chamado> {
 
@@ -16,4 +18,7 @@ public interface ChamadoRepository
             Specification<Chamado> spec,
             Pageable pageable
     );
+
+    @EntityGraph(attributePaths = {"maquina", "setor", "mecanico"})
+    List<Chamado> findAll(Specification<Chamado> spec);
 }

@@ -30,6 +30,16 @@ function montarParametros(filtros = {}) {
   return parametros.toString();
 }
 
+async function verificarResposta(resposta, mensagemPadrao) {
+  if (!resposta.ok) {
+    const mensagemErro = await resposta.text();
+
+    throw new Error(mensagemErro || mensagemPadrao);
+  }
+
+  return resposta.json();
+}
+
 export async function buscarIndicadores(filtros = {}) {
   const consulta = montarParametros(filtros);
 
@@ -39,27 +49,32 @@ export async function buscarIndicadores(filtros = {}) {
 
   const resposta = await fetch(url);
 
-  if (!resposta.ok) {
-    const mensagemErro = await resposta.text();
-
-    throw new Error(
-      mensagemErro || "Não foi possível carregar os indicadores.",
-    );
-  }
-
-  return resposta.json();
+  return verificarResposta(
+    resposta,
+    "Não foi possível carregar os indicadores.",
+  );
 }
 
 export async function buscarIndicadoresMensais(ano) {
   const resposta = await fetch(`${URL_API}/indicadores/mensais?ano=${ano}`);
 
-  if (!resposta.ok) {
-    const mensagemErro = await resposta.text();
+  return verificarResposta(
+    resposta,
+    "Não foi possível carregar os indicadores mensais.",
+  );
+}
 
-    throw new Error(
-      mensagemErro || "Não foi possível carregar os indicadores mensais.",
-    );
-  }
+export async function buscarIndicadoresMecanicos(filtros = {}) {
+  const consulta = montarParametros(filtros);
 
-  return resposta.json();
+  const url = consulta
+    ? `${URL_API}/indicadores/mecanicos?${consulta}`
+    : `${URL_API}/indicadores/mecanicos`;
+
+  const resposta = await fetch(url);
+
+  return verificarResposta(
+    resposta,
+    "Não foi possível carregar os indicadores dos mecânicos.",
+  );
 }
