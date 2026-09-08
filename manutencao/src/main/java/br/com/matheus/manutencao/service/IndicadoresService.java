@@ -10,6 +10,9 @@ import br.com.matheus.manutencao.dto.IndicadorMensalDTO;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.List;
+import br.com.matheus.manutencao.dto.IndicadorMecanicoDTO;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 @Service
 public class IndicadoresService {
@@ -129,5 +132,61 @@ public class IndicadoresService {
         }
 
         return indicadoresMensais;
+    }
+
+    public List<IndicadorMecanicoDTO> buscarIndicadoresMecanicos(
+            LocalDate dataInicio,
+            LocalDate dataFim
+    ) {
+
+        List<Chamado> chamados = chamadoRepository.findAll(
+                ChamadoSpecification.filtrar(
+                        null,
+                        null,
+                        null,
+                        null,
+                        dataInicio,
+                        dataFim
+                )
+        );
+
+        return chamados.stream()
+                .collect(Collectors.groupingBy(
+                        chamado -> chamado.getMecanico().getNome()
+                ))
+                .entrySet()
+                .stream()
+                .map(entrada -> {
+
+                    String nomeMecanico = entrada.getKey();
+                    List<Chamado> chamadosMecanico = entrada.getValue();
+
+                    long chamadosMaquina = chamadosMecanico.stream()
+                            .filter(chamado ->
+                                    chamado.getTipo() == TipoChamado.MAQUINA
+                            )
+                            .count();
+
+                    long chamadosPredial = chamadosMecanico.stream()
+                            .filter(chamado ->
+                                    chamado.getTipo() == TipoChamado.PREDIAL
+                            )
+                            .count();
+
+                    long totalChamados = chamadosMecanico.size();
+
+                    return new IndicadorMecanicoDTO(
+                            nomeMecanico,
+                            chamadosMaquina,
+                            chamadosPredial,
+                            totalChamados
+                    );
+                })
+                .sorted(
+                        Comparator.comparing(
+                                IndicadorMecanicoDTO::getTotalChamados
+                        ).reversed()
+                )
+                .toList();
     }
 }

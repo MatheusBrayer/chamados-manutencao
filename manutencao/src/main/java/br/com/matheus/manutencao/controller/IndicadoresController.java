@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import br.com.matheus.manutencao.dto.IndicadorMensalDTO;
 import java.util.List;
 import java.time.LocalDate;
+import br.com.matheus.manutencao.dto.IndicadorMecanicoDTO;
 
 @RestController
 @RequestMapping("/api/indicadores")
@@ -72,6 +73,32 @@ public class IndicadoresController {
                             "Erro ao buscar indicadores mensais: ");
 
 
+        }
+    }
+
+    @GetMapping("/mecanicos")
+    public ResponseEntity<?> buscarIndicadoresMecanicos(
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataInicio,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate dataFim
+    ) {
+        try {
+            List<IndicadorMecanicoDTO> indicadoresMecanicos =
+                    indicadoresService.buscarIndicadoresMecanicos(
+                            dataInicio,
+                            dataFim
+                    );
+
+            return ResponseEntity.ok(indicadoresMecanicos);
+
+        } catch (Exception erro) {
+            return ResponseEntity
+                    .status(500)
+                    .body("Erro ao buscar indicadores dos mecânicos: " + erro.getMessage());
         }
     }
 }
