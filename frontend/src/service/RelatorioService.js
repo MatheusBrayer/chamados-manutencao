@@ -18,6 +18,7 @@ function desenharGraficoLinha(
 
   pdf.setFontSize(14);
   pdf.setFont("helvetica", "bold");
+  pdf.setTextColor(40, 40, 40);
   pdf.text(titulo, x, y);
 
   const graficoX = x + 12;
@@ -34,6 +35,7 @@ function desenharGraficoLinha(
   });
 
   const maiorValor = Math.max(...valores, 1);
+  const maxEscala = maiorValor + 1;
 
   const quantidadePontos = dados.length;
 
@@ -42,29 +44,32 @@ function desenharGraficoLinha(
       ? graficoLargura / (quantidadePontos - 1)
       : graficoLargura;
 
-  pdf.setDrawColor(210, 214, 219);
-  pdf.setLineWidth(0.3);
-
-  for (let i = 0; i <= 5; i++) {
-    const valor = (maiorValor / 5) * i;
-
+  // Grade horizontal e eixo Y
+  for (let valor = 0; valor <= maiorValor; valor++) {
     const linhaY =
-      graficoY + graficoAltura - (valor / maiorValor) * graficoAltura;
+      graficoY + graficoAltura - (valor / maxEscala) * graficoAltura;
+
+    pdf.setDrawColor(230, 230, 230);
+    pdf.setLineWidth(0.25);
 
     pdf.line(graficoX, linhaY, graficoX + graficoLargura, linhaY);
 
     pdf.setFont("helvetica", "normal");
-    pdf.setFontSize(7);
-    pdf.setTextColor(100, 100, 100);
+    pdf.setFontSize(8);
+    pdf.setTextColor(110, 110, 110);
 
-    pdf.text(String(Math.round(valor)), graficoX - 5, linhaY + 2, {
+    pdf.text(String(valor), graficoX - 6, linhaY + 2, {
       align: "right",
     });
   }
 
-  pdf.setDrawColor(80, 80, 80);
+  // Eixo Y
+  pdf.setDrawColor(160, 160, 160);
+  pdf.setLineWidth(0.5);
+
   pdf.line(graficoX, graficoY, graficoX, graficoY + graficoAltura);
 
+  // Eixo X
   pdf.line(
     graficoX,
     graficoY + graficoAltura,
@@ -85,7 +90,7 @@ function desenharGraficoLinha(
       const pontoX = graficoX + distanciaX * indice;
 
       const pontoY =
-        graficoY + graficoAltura - (valor / maiorValor) * graficoAltura;
+        graficoY + graficoAltura - (valor / maxEscala) * graficoAltura;
 
       pontos.push({
         x: pontoX,
@@ -95,7 +100,7 @@ function desenharGraficoLinha(
 
     pdf.setDrawColor(serieBase.r, serieBase.g, serieBase.b);
 
-    pdf.setLineWidth(1);
+    pdf.setLineWidth(1.4);
 
     for (let i = 1; i < pontos.length; i++) {
       pdf.line(pontos[i - 1].x, pontos[i - 1].y, pontos[i].x, pontos[i].y);
@@ -104,10 +109,11 @@ function desenharGraficoLinha(
     pontos.forEach((ponto) => {
       pdf.setFillColor(serieBase.r, serieBase.g, serieBase.b);
 
-      pdf.circle(ponto.x, ponto.y, 1.3, "F");
+      pdf.circle(ponto.x, ponto.y, 1.8, "F");
     });
   });
 
+  // Rótulos eixo X
   dados.forEach((item, indice) => {
     const pontoX = graficoX + distanciaX * indice;
 
@@ -120,6 +126,7 @@ function desenharGraficoLinha(
     });
   });
 
+  // Legenda
   const legendaY = graficoY + graficoAltura + 18;
 
   series.forEach((serie, indice) => {
@@ -127,7 +134,7 @@ function desenharGraficoLinha(
 
     pdf.setFillColor(serie.r, serie.g, serie.b);
 
-    pdf.circle(legendaX, legendaY - 1, 1.5, "F");
+    pdf.circle(legendaX, legendaY - 1, 1.8, "F");
 
     pdf.setFont("helvetica", "normal");
     pdf.setFontSize(8);
