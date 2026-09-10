@@ -10,6 +10,7 @@ import br.com.matheus.manutencao.dto.IndicadorMensalDTO;
 import java.util.List;
 import java.time.LocalDate;
 import br.com.matheus.manutencao.dto.IndicadorMecanicoDTO;
+import br.com.matheus.manutencao.dto.IndicadorDiarioDTO;
 
 @RestController
 @RequestMapping("/api/indicadores")
@@ -73,6 +74,30 @@ public class IndicadoresController {
                             "Erro ao buscar indicadores mensais: ");
 
 
+        }
+    }
+
+    @GetMapping("/diarios")
+    public ResponseEntity<?> buscarIndicadoresDiarios(
+            @RequestParam Integer ano,
+            @RequestParam Integer mes
+    ) {
+        try {
+            List<IndicadorDiarioDTO> indicadoresDiarios =
+                    indicadoresService.buscarIndicadoresDiarios(
+                            ano,
+                            mes
+                    );
+
+            return ResponseEntity.ok(indicadoresDiarios);
+
+        } catch (Exception erro) {
+            return ResponseEntity
+                    .status(500)
+                    .body(
+                            "Erro ao buscar indicadores diários: "
+                                    + erro.getMessage()
+                    );
         }
     }
 

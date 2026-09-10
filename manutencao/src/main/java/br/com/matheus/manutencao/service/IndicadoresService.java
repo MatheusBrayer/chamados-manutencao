@@ -12,15 +12,22 @@ import java.time.LocalDate;
 import java.util.List;
 import br.com.matheus.manutencao.dto.IndicadorMecanicoDTO;
 import java.util.Comparator;
-import java.util.stream.Collectors;
+import br.com.matheus.manutencao.dto.IndicadorDiarioDTO;
+import br.com.matheus.manutencao.entity.Mecanico;
+import br.com.matheus.manutencao.repository.MecanicoRepository;
 
 @Service
 public class IndicadoresService {
 
     private final ChamadoRepository chamadoRepository;
+    private final MecanicoRepository mecanicoRepository;
 
-    public IndicadoresService(ChamadoRepository chamadoRepository) {
+    public IndicadoresService(
+            ChamadoRepository chamadoRepository,
+            MecanicoRepository mecanicoRepository
+    ) {
         this.chamadoRepository = chamadoRepository;
+        this.mecanicoRepository = mecanicoRepository;
     }
 
     public IndicadoresDTO buscarIndicadores(
@@ -134,10 +141,74 @@ public class IndicadoresService {
         return indicadoresMensais;
     }
 
+    public List<IndicadorDiarioDTO> buscarIndicadoresDiarios(
+            Integer ano,
+            Integer mes
+    ) {
+
+        LocalDate dataInicio = LocalDate.of(ano, mes, 1);
+        LocalDate dataFim = dataInicio.withDayOfMonth(
+                dataInicio.lengthOfMonth()
+        );
+
+        List<Chamado> chamadosDoMes = chamadoRepository.findAll(
+                ChamadoSpecification.filtrar(
+                        null,
+                        null,
+                        null,
+                        null,
+                        dataInicio,
+                        dataFim
+                )
+        );
+
+        List<IndicadorDiarioDTO> indicadoresDiarios = new ArrayList<>();
+
+        int quantidadeDias = dataInicio.lengthOfMonth();
+
+        for (int dia = 1; dia <= quantidadeDias; dia++) {
+
+            int diaAtual = dia;
+
+            long totalChamados = chamadosDoMes.stream()
+                    .filter(chamado ->
+                            chamado.getData().getDayOfMonth() == diaAtual
+                    )
+                    .count();
+
+            long chamadosMaquina = chamadosDoMes.stream()
+                    .filter(chamado ->
+                            chamado.getData().getDayOfMonth() == diaAtual
+                                    && chamado.getTipo() == TipoChamado.MAQUINA
+                    )
+                    .count();
+
+            long chamadosPredial = chamadosDoMes.stream()
+                    .filter(chamado ->
+                            chamado.getData().getDayOfMonth() == diaAtual
+                                    && chamado.getTipo() == TipoChamado.PREDIAL
+                    )
+                    .count();
+
+            indicadoresDiarios.add(
+                    new IndicadorDiarioDTO(
+                            diaAtual,
+                            totalChamados,
+                            chamadosMaquina,
+                            chamadosPredial
+                    )
+            );
+        }
+
+        return indicadoresDiarios;
+    }
+
     public List<IndicadorMecanicoDTO> buscarIndicadoresMecanicos(
             LocalDate dataInicio,
             LocalDate dataFim
     ) {
+
+        List<Mecanico> mecanicos = mecanicoRepository.findAll();
 
         List<Chamado> chamados = chamadoRepository.findAll(
                 ChamadoSpecification.filtrar(
@@ -150,16 +221,15 @@ public class IndicadoresService {
                 )
         );
 
-        return chamados.stream()
-                .collect(Collectors.groupingBy(
-                        chamado -> chamado.getMecanico().getNome()
-                ))
-                .entrySet()
-                .stream()
-                .map(entrada -> {
+        return mecanicos.stream()
+                .map(mecanico -> {
 
-                    String nomeMecanico = entrada.getKey();
-                    List<Chamado> chamadosMecanico = entrada.getValue();
+                    List<Chamado> chamadosMecanico = chamados.stream()
+                            .filter(chamado ->
+                                    chamado.getMecanico().getId()
+                                            .equals(mecanico.getId())
+                            )
+                            .toList();
 
                     long chamadosMaquina = chamadosMecanico.stream()
                             .filter(chamado ->
@@ -176,7 +246,7 @@ public class IndicadoresService {
                     long totalChamados = chamadosMecanico.size();
 
                     return new IndicadorMecanicoDTO(
-                            nomeMecanico,
+                            mecanico.getNome(),
                             chamadosMaquina,
                             chamadosPredial,
                             totalChamados
@@ -188,5 +258,5 @@ public class IndicadoresService {
                         ).reversed()
                 )
                 .toList();
+        }
     }
-}

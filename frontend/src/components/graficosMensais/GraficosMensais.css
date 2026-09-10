@@ -73,7 +73,7 @@
   .conteudo-grafico-mensal {
     width: 100%;
     min-width: 0;
-    height: 290px;
+    height: 200px;
     overflow: hidden;
   }
 }

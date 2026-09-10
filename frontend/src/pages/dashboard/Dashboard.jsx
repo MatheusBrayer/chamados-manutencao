@@ -125,95 +125,97 @@ function Dashboard() {
   return (
     <main className="pagina-dashboard">
       <header className="cabecalho-dashboard">
-        <div className="topo-cabecalho-dashboard">
-          <div className="identificacao-dashboard">
-            <h1>Manutenção Vulcabras</h1>
-            <p>Olá, {usuarioLogado?.nome || "Usuário"}</p>
+        <div className="container-cabecalho-dashboard">
+          <div className="topo-cabecalho-dashboard">
+            <div className="identificacao-dashboard">
+              <h1>Manutenção Vulcabras</h1>
+              <p>Olá, {usuarioLogado?.nome || "Usuário"}</p>
+            </div>
+
+            <button
+              type="button"
+              className="botao-menu-dashboard"
+              onClick={() => definirMenuAberto((estadoAtual) => !estadoAtual)}
+              aria-expanded={menuAberto}
+              aria-controls="navegacao-dashboard"
+            >
+              {menuAberto ? "Fechar" : "Menu"}
+            </button>
           </div>
 
-          <button
-            type="button"
-            className="botao-menu-dashboard"
-            onClick={() => definirMenuAberto((estadoAtual) => !estadoAtual)}
-            aria-expanded={menuAberto}
-            aria-controls="navegacao-dashboard"
+          <nav
+            id="navegacao-dashboard"
+            className={
+              menuAberto
+                ? "navegacao-dashboard navegacao-aberta"
+                : "navegacao-dashboard"
+            }
           >
-            {menuAberto ? "Fechar" : "Menu"}
-          </button>
+            <button
+              type="button"
+              onClick={() => {
+                navegar("/dashboard");
+                definirMenuAberto(false);
+              }}
+            >
+              Dashboard
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                navegar("/novo-registro");
+                definirMenuAberto(false);
+              }}
+            >
+              Novo Registro
+            </button>
+
+            <details className="menu-registros">
+              <summary>Registros</summary>
+
+              <div className="opcoes-registros">
+                <button
+                  type="button"
+                  onClick={() => {
+                    navegar("/chamados");
+                    definirMenuAberto(false);
+                  }}
+                >
+                  Chamados
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    navegar("/registros/maquinas");
+                    definirMenuAberto(false);
+                  }}
+                >
+                  Máquinas
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    navegar("/registros/mecanicos");
+                    definirMenuAberto(false);
+                  }}
+                >
+                  Mecânicos
+                </button>
+              </div>
+            </details>
+
+            <button
+              type="button"
+              className="botao-sair-dashboard"
+              onClick={sairDoSistema}
+            >
+              Sair
+            </button>
+          </nav>
         </div>
-
-        <nav
-          id="navegacao-dashboard"
-          className={
-            menuAberto
-              ? "navegacao-dashboard navegacao-aberta"
-              : "navegacao-dashboard"
-          }
-        >
-          <button
-            type="button"
-            onClick={() => {
-              navegar("/dashboard");
-              definirMenuAberto(false);
-            }}
-          >
-            Dashboard
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              navegar("/novo-registro");
-              definirMenuAberto(false);
-            }}
-          >
-            Novo Registro
-          </button>
-
-          <details className="menu-registros">
-            <summary>Registros</summary>
-
-            <div className="opcoes-registros">
-              <button
-                type="button"
-                onClick={() => {
-                  navegar("/chamados");
-                  definirMenuAberto(false);
-                }}
-              >
-                Chamados
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  navegar("/registros/maquinas");
-                  definirMenuAberto(false);
-                }}
-              >
-                Máquinas
-              </button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  navegar("/registros/mecanicos");
-                  definirMenuAberto(false);
-                }}
-              >
-                Mecânicos
-              </button>
-            </div>
-          </details>
-
-          <button
-            type="button"
-            className="botao-sair-dashboard"
-            onClick={sairDoSistema}
-          >
-            Sair
-          </button>
-        </nav>
       </header>
 
       <section className="conteudo-dashboard">
@@ -283,18 +285,19 @@ function Dashboard() {
         <div className="grade-indicadores">
           <article className="cartao-indicador cartao-total">
             <span>Total de chamados</span>
+            <div>Maquinas + Predial</div>
 
             <strong>{indicadores.totalChamados}</strong>
           </article>
 
           <article className="cartao-indicador cartao-maquina">
-            <span>Chamados de máquina</span>
+            <span>Chamados de Máquina</span>
 
             <strong>{indicadores.chamadosMaquina}</strong>
           </article>
 
           <article className="cartao-indicador cartao-predial">
-            <span>Chamados prediais</span>
+            <span>Chamados Prediais</span>
 
             <strong>{indicadores.chamadosPredial}</strong>
           </article>
