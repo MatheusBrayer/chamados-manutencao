@@ -4,11 +4,13 @@ import { useNavigate } from "react-router";
 import "./Dashboard.css";
 import GraficoPizza from "../../components/graficoPizza/GraficoPizza";
 import GraficosMensais from "../../components/graficosMensais/GraficosMensais";
+import { gerarRelatorioPDF } from "../../service/RelatorioService";
 
 import {
   buscarIndicadores,
   buscarIndicadoresMensais,
   buscarIndicadoresMecanicos,
+  buscarIndicadoresDiarios,
 } from "../../service/IndicadoresService";
 
 const NOMES_MESES = [
@@ -41,6 +43,7 @@ function Dashboard() {
 
   const [indicadores, definirIndicadores] = useState(null);
   const [indicadoresMensais, definirIndicadoresMensais] = useState([]);
+  const [indicadoresDiarios, definirIndicadoresDiarios] = useState([]);
   const [indicadoresMecanicos, definirIndicadoresMecanicos] = useState([]);
 
   const [carregando, definirCarregando] = useState(true);
@@ -51,6 +54,36 @@ function Dashboard() {
   function sairDoSistema() {
     localStorage.removeItem("usuarioLogado");
     navegar("/login");
+  }
+
+  async function gerarRelatorio() {
+    try {
+      const periodo = mesFiltrado
+        ? `${NOMES_MESES[Number(mesFiltrado) - 1].toLowerCase()} de ${anoFiltrado}`
+        : `ano de ${anoFiltrado}`;
+
+      let dadosEvolucao;
+
+      if (mesFiltrado) {
+        dadosEvolucao = await buscarIndicadoresDiarios(
+          anoFiltrado,
+          Number(mesFiltrado),
+        );
+      } else {
+        dadosEvolucao = indicadoresMensais;
+      }
+
+      gerarRelatorioPDF({
+        periodo,
+        indicadores,
+        indicadoresMecanicos,
+        dadosEvolucao,
+        mes: mesFiltrado ? Number(mesFiltrado) : null,
+      });
+    } catch (erro) {
+      console.error("Erro ao gerar relatório:", erro);
+      alert("Não foi possível gerar o relatório.");
+    }
   }
 
   function obterPeriodo(ano, mes) {
@@ -93,9 +126,19 @@ function Dashboard() {
         buscarIndicadoresMecanicos(filtros),
       ]);
 
+      let dadosIndicadoresDiarios = [];
+
+      if (mes) {
+        dadosIndicadoresDiarios = await buscarIndicadoresDiarios(
+          ano,
+          Number(mes),
+        );
+      }
+
       definirIndicadores(dadosIndicadores);
       definirIndicadoresMensais(dadosIndicadoresMensais);
       definirIndicadoresMecanicos(dadosIndicadoresMecanicos);
+      definirIndicadoresDiarios(dadosIndicadoresDiarios);
     } catch (erroRequisicao) {
       definirErro(erroRequisicao.message);
     } finally {
@@ -272,9 +315,7 @@ function Dashboard() {
             <button
               type="button"
               className="botao-relatorio-dashboard"
-              onClick={() => {
-                // Implementaremos na etapa do PDF.
-              }}
+              onClick={gerarRelatorio}
             >
               Gerar relatório
             </button>
@@ -335,7 +376,11 @@ function Dashboard() {
             </div>
           </div>
 
-          <GraficosMensais dadosMensais={indicadoresMensais} />
+          <GraficosMensais
+            dadosMensais={indicadoresMensais}
+            dadosDiarios={indicadoresDiarios}
+            mesSelecionado={mesFiltrado}
+          />
         </section>
 
         {/* TABELA DE MECÂNICOS */}

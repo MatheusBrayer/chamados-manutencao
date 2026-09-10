@@ -78,3 +78,14 @@ export async function buscarIndicadoresMecanicos(filtros = {}) {
     "Não foi possível carregar os indicadores dos mecânicos.",
   );
 }
+
+export async function buscarIndicadoresDiarios(ano, mes) {
+  const resposta = await fetch(
+    `${URL_API}/indicadores/diarios?ano=${ano}&mes=${mes}`,
+  );
+
+  return verificarResposta(
+    resposta,
+    "Não foi possível carregar os indicadores diários.",
+  );
+}

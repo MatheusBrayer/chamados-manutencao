@@ -26,11 +26,22 @@ const NOMES_MESES = [
   "Dez",
 ];
 
-function GraficosMensais({ dadosMensais }) {
-  const dadosFormatados = dadosMensais.map((indicador) => ({
-    ...indicador,
-    nomeMes: NOMES_MESES[indicador.mes - 1],
-  }));
+function GraficosMensais({ dadosMensais, dadosDiarios, mesSelecionado }) {
+  const usandoDadosDiarios = Boolean(mesSelecionado);
+
+  const dadosFormatados = usandoDadosDiarios
+    ? dadosDiarios.map((indicador) => ({
+        ...indicador,
+        nomePeriodo: String(indicador.dia),
+      }))
+    : dadosMensais.map((indicador) => ({
+        ...indicador,
+        nomePeriodo: NOMES_MESES[indicador.mes - 1],
+      }));
+
+  const descricaoPeriodo = usandoDadosDiarios
+    ? "Evolução diária dos chamados no mês selecionado."
+    : "Comparação mensal entre chamados de máquina e prediais.";
 
   return (
     <section className="secao-graficos-mensais">
@@ -38,7 +49,7 @@ function GraficosMensais({ dadosMensais }) {
         <div className="cabecalho-grafico-mensal">
           <h2>Chamados por tipo</h2>
 
-          <p>Comparação mensal entre chamados de máquina e prediais.</p>
+          <p>{descricaoPeriodo}</p>
         </div>
 
         <div className="conteudo-grafico-mensal">
@@ -55,7 +66,7 @@ function GraficosMensais({ dadosMensais }) {
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis
-                dataKey="nomeMes"
+                dataKey="nomePeriodo"
                 interval={0}
                 tick={{ fontSize: 12 }}
                 tickMargin={8}
@@ -98,7 +109,11 @@ function GraficosMensais({ dadosMensais }) {
         <div className="cabecalho-grafico-mensal">
           <h2>Total de chamados</h2>
 
-          <p>Evolução mensal da quantidade total de chamados.</p>
+          <p>
+            {usandoDadosDiarios
+              ? "Evolução diária da quantidade total de chamados."
+              : "Evolução mensal da quantidade total de chamados."}
+          </p>
         </div>
 
         <div className="conteudo-grafico-mensal">
@@ -115,7 +130,7 @@ function GraficosMensais({ dadosMensais }) {
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis
-                dataKey="nomeMes"
+                dataKey="nomePeriodo"
                 interval={0}
                 tick={{ fontSize: 12 }}
                 tickMargin={8}
