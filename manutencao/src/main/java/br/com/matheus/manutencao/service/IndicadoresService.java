@@ -221,7 +221,13 @@ public class IndicadoresService {
                 )
         );
 
+
         return mecanicos.stream()
+                .filter(mecanico ->
+                        !mecanico.getNome().equalsIgnoreCase("Daniel")
+                                && !mecanico.getNome().equalsIgnoreCase("Matheus")
+                                && !mecanico.getNome().equalsIgnoreCase("Luiz")
+                )
                 .map(mecanico -> {
 
                     List<Chamado> chamadosMecanico = chamados.stream()
@@ -258,5 +264,4 @@ public class IndicadoresService {
                         ).reversed()
                 )
                 .toList();
-        }
     }
