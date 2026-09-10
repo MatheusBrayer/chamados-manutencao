@@ -271,18 +271,19 @@ function Chamados() {
         <section className="grade-indicadores-chamados">
           <article className="cartao-indicador-chamados cartao-total-chamados">
             <span>Total de chamados</span>
+            <div>Maquinas + Predial</div>
 
             <strong>{indicadores.totalChamados}</strong>
           </article>
 
           <article className="cartao-indicador-chamados cartao-maquina-chamados">
-            <span>Chamados de máquina</span>
+            <span>Chamados de Máquina</span>
 
             <strong>{indicadores.chamadosMaquina}</strong>
           </article>
 
           <article className="cartao-indicador-chamados cartao-predial-chamados">
-            <span>Chamados prediais</span>
+            <span>Chamados Prediais</span>
 
             <strong>{indicadores.chamadosPredial}</strong>
           </article>

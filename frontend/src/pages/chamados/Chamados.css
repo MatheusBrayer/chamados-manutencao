@@ -122,8 +122,14 @@
 }
 
 .cartao-indicador-chamados span {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
+}
+
+.cartao-indicador div {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: -15px;
 }
 
 .cartao-indicador-chamados strong {
