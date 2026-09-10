@@ -224,9 +224,9 @@ public class IndicadoresService {
 
         return mecanicos.stream()
                 .filter(mecanico ->
-                        !mecanico.getNome().equalsIgnoreCase("Daniel")
-                                && !mecanico.getNome().equalsIgnoreCase("Matheus")
-                                && !mecanico.getNome().equalsIgnoreCase("Luiz")
+                        !mecanico.getNome().equalsIgnoreCase("Daniel Saueressig")
+                                && !mecanico.getNome().equalsIgnoreCase("Matheus Brayer")
+                                && !mecanico.getNome().equalsIgnoreCase("Luiz Gil")
                 )
                 .map(mecanico -> {
 
