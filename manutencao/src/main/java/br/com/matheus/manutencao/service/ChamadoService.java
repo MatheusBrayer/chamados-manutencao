@@ -13,6 +13,7 @@ import br.com.matheus.manutencao.repository.MaquinaRepository;
 import br.com.matheus.manutencao.repository.MecanicoRepository;
 import br.com.matheus.manutencao.repository.SetorRepository;
 import br.com.matheus.manutencao.specification.ChamadoSpecification;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import br.com.matheus.manutencao.enums.PerfilUsuario;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,7 @@ public class ChamadoService {
         this.mecanicoRepository = mecanicoRepository;
     }
 
+    @Transactional
     public Chamado cadastrarChamado(ChamadoRequestDTO dto) {
 
         Setor setor = setorRepository.findById(dto.getSetorId())
@@ -127,6 +129,7 @@ public class ChamadoService {
         return chamadoRepository.save(chamado);
     }
 
+    @Transactional
     public ChamadoResponseDTO buscarChamadoPorId(Long id) {
         Chamado chamado = chamadoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Chamado não encontrado!"));
@@ -166,6 +169,7 @@ public class ChamadoService {
         return dto;
     }
 
+    @Transactional
     public Page<ChamadoResponseDTO> listarComFiltros(
             TipoChamado tipo,
             Long setorId,
@@ -209,6 +213,7 @@ public class ChamadoService {
         }
     }
 
+    @Transactional
     public void excluirChamado(
             Long chamadoId,
             Integer matriculaUsuario
@@ -237,6 +242,7 @@ public class ChamadoService {
         chamadoRepository.delete(chamado);
     }
 
+    @Transactional
     public ChamadoResponseDTO editarChamado(
             Long chamadoId,
             Integer matriculaUsuario,
@@ -353,25 +359,4 @@ public class ChamadoService {
         );
     }
 
-    private void validarPermissaoDeEdicao(
-            Chamado chamado,
-            Mecanico usuarioLogado
-    ) {
-        boolean administrador =
-                usuarioLogado.getPerfil()
-                        == PerfilUsuario.ADMIN;
-
-        boolean mecanicoRegistrado =
-                chamado.getMecanico()
-                        .getMatricula()
-                        .equals(
-                                usuarioLogado.getMatricula()
-                        );
-
-        if (!administrador && !mecanicoRegistrado) {
-            throw new AcessoNegadoException(
-                    "Você não possui permissão para editar este chamado."
-            );
-        }
-    }
 }
